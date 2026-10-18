@@ -39,10 +39,14 @@
 from condb import condb
 from extract import extract
 from load import load
+import pandas as pd
+from datetime import datetime
+from time import time
 # from transform import transform
 
 
 # Connect to the PostgreSQL database
+# (NB: Remember to start the server on Docker)
 # ( https://docs.sqlalchemy.org/en/21/intro.html )
 # --- ADD USER PROMPT HERE ---
 username = 'nth'
@@ -88,30 +92,51 @@ unit_mapping =    {
 # Define the start time stamp, start_time. 
 # Extract and load loop will run from the start time stamp 
 # until the latest available time stamp has been extracted and loaded. 
-start_time = '2018-01-01T00:00:00Z'
+start_time = '2015-01-01T00:00:00Z'
+station_params = []
 
 while True: # Extract and load loop
     
-    # Find the last time stamp extracted for each measurement parameter and location in the database
-    last_time = condb.last_time(engine)
+    clock_start = time()
+    
+    print('\n🔃 Checking for new data on the API not loaded to the database...')
+    
+    # Find the last time stamp extracted in the database
+    last_time_db, params_stationId = condb.last_time(engine, start_time, stations, parameterIds)
     
     # Extract new data from the DMI API
-    dat = extract.dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time)
+    dat = extract.dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId)
     
     # Check the extracted data by visualization with plotly
     # extract.check_dat(dat, parameterIds)
     
     # Check whether any new time stamps were extracted
     if not all(len(x) == 0 for x in dat): 
-    
-        # Load the new data into the PostgreSQL database
-        load.to_db(engine, parameterIds, dat)
         
-    else: # If no new data was extracted, exit the extract and load loop
+        last_time_api = extract.last_time(dat)
         
-        break
-    
+        if not last_time_api==last_time_db: 
+        
+            # Load the new data into the PostgreSQL database
+            load.to_db(engine, parameterIds, dat)
 
+        else: # If no new data was extracted, exit the extract and load loop
+            
+            print('\n🔃 The database is up to date!') 
+            
+            dbsize = pd.read_sql( "SELECT pg_size_pretty(pg_database_size('dmi_etl')) AS size", engine)['size'][0]
+            
+            print(f'\n🗄️ {dbsize} are occupied on {location} for storing data between {datetime.fromisoformat(start_time):%B %Y} and {datetime.fromisoformat(last_time_db):%B %Y}.')
+            
+            break
+        
+    clock_end = time()
+    
+    minperyear = (clock_end - clock_start) / 60 * 12
+    
+    print(f'\n⏳ The current processing speed is ~{round(minperyear,1)} minutes per year of data.')
+        
+    
 # Close the PostgreSQL database engine
 engine.dispose()
 

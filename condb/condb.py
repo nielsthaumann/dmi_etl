@@ -26,11 +26,11 @@ def condb(username, password, location, dbname):
     
     return engine
 
-def last_time(engine): 
+def last_time(engine, start_time, stations, parameterIds): 
     '''
-        last_time = condb.last_time(engine)
+        last_time_db, params_stationId = condb.last_time(engine, start_time, stations, parameterIds)
         
-        Find the last time stamp extracted for each measurement parameter and location in the database
+        Find the last time stamp extracted in the database and trusted trusted for each measurement parameter
     '''
     
     # Create an inspector object
@@ -39,13 +39,12 @@ def last_time(engine):
     # Get a list of table names indicating each measurement parameter
     db_parameterIds = inspector.get_table_names()
     
-    # Prepare a dictionary of dataframes with locations and last time stamp extracted
-    last_time = dict()
+    # Prepare a list of last time stamps extracted
+    last_time_db = [[] for _ in db_parameterIds]
+    
+    params_stationId = {pid: [] for pid in parameterIds}
     
     for i in range(len(db_parameterIds)): # Loop over measurement parameters
-        
-        cols = pd.read_sql(f"SELECT * FROM {db_parameterIds[i]} LIMIT 0", engine).columns.tolist()
-        last_time[db_parameterIds[i]] = pd.DataFrame(columns=cols)
         
         db_locations = pd.read_sql(f'SELECT DISTINCT location_longitude, location_latitude FROM {db_parameterIds[i]}', engine)
         
@@ -53,7 +52,23 @@ def last_time(engine):
             
             # Find the last time stamp extracted from each location
             db_location = db_locations['location_longitude'][j], db_locations['location_latitude'][j]
-            last_time[db_parameterIds[i]].loc[len(last_time[db_parameterIds[i]])] = pd.read_sql(f"SELECT * FROM {db_parameterIds[i]} WHERE location_longitude={db_location[0]} AND location_latitude={db_location[1]} ORDER BY time_to DESC LIMIT 1", engine).loc[0]
             
-    return last_time
+            # If the last time stamp is later than the start time
+            if start_time < pd.read_sql(f"SELECT * FROM {db_parameterIds[i]} WHERE location_longitude={db_location[0]} AND location_latitude={db_location[1]} ORDER BY time_to DESC", engine).loc[0].tolist()[0]: 
+                
+                # Add the station as trusted for this measurement parameter
+                stationId = stations.loc[(stations.longitude == str(db_location[0])) & (stations.latitude == str(db_location[1])), 'stationId'].drop_duplicates().tolist()[0]
+                params_stationId[db_parameterIds[i]].append(stationId) 
+                
+        # Find the last time stamp extracted
+        last_time_db[i] = pd.read_sql(f"SELECT time_to FROM {db_parameterIds[i]} ORDER BY time_to DESC LIMIT 1", engine).loc[0].tolist()[0]
+            
+    times = pd.to_datetime(last_time_db)
+    last_time_db = times.max().isoformat()
+    
+    if last_time_db=='NaT': 
+        
+        last_time_db = start_time
+    
+    return last_time_db, params_stationId
 

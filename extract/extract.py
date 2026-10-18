@@ -111,10 +111,10 @@ def loc_range(bbox, stations):
 # # Data is extracted from the start time stamp until the latest available time stamp. 
 # start_time = '2018-01-01T00:00:00Z'
 
-def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time): 
+def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId): 
     
     '''
-        dat = dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time)
+        dat, station_params = dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId)
         
         Extraction function for Climate Data API
     '''
@@ -137,37 +137,21 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
             
             print(f'\t📡 Extracting {parameterId} data from station {j+1} of {len(stationIds)}...')
             
-            # Default start from the global start time (used if no earlier data is found)
-            time_stamp = start_time
-            
-            # Find the current station in the stations table
-            station = stations[stations.stationId == stationId]
-            
-            # If this parameter has been extracted before
-            # and the station exists in the stations table
-            if parameterId in last_time and not station.empty:
-                
-                # Search for earlier timestamps
-                
-                # Take the station's coordinates as plain floats
-                lon, lat = map(float, station[['longitude', 'latitude']].iloc[0])
-                
-                # Previously extracted data for this parameter
-                lt = last_time[parameterId]
-                
-                # Boolean mask: rows whose coordinates match this station (np.isclose avoids float equality problems)
-                mask = np.isclose(lt['location_longitude'], lon) & np.isclose(lt['location_latitude'], lat)
-                
-                # Only override the default if at least one matching row exists
-                if mask.any():
-                    time_stamp = lt.loc[mask, 'time_to'].max()
-            
             # Add one month to the starting point and format it as an ISO string with a trailing Z (UTC)
-            end_time = (pd.Timestamp(time_stamp) + pd.DateOffset(months=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
+            end_time = (pd.Timestamp(last_time_db) + pd.DateOffset(months=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
             
             date_time = start_time +'/' + end_time # Begin/end yyyy-mm-ddThh:mm:ss
             
-            print(f'\t\t🕒 Requesting data from the month of {datetime.fromisoformat(time_stamp):%B %Y}...')
+            # If this parameter has been extracted before
+            if last_time_db > start_time: 
+                
+                # If the station is not trusted for this measurement parameter
+                if not stationId in params_stationId[parameterId]: 
+                    
+                    print(f'\t\t\t🟡 Skipping station, since no {parameterId} data found on first request.')    
+                    continue
+            
+            print(f'\t\t🕒 Requesting data from the month of {datetime.fromisoformat(last_time_db):%B %Y}...')
             
             # Define parameter, station, time range, and time resolution for query
             params = {'parameterId': parameterId, # Measurement parameter.
@@ -274,7 +258,7 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
                 hourdiff = np.max(np.diff(pd.to_datetime(station_df['time_to'])) / pd.Timedelta(hours=1))
                 if hourdiff < -1: 
                     print(f'\t\t\t🟡 Warning: Data from {hourdiff} hours were missing.')
-                
+        
         # Flatten the dataframes across stations
         if dat[i]:
             dat[i] = pd.concat(dat[i], ignore_index=True)
@@ -344,4 +328,27 @@ def check_dat(dat, parameterIds):
         except Exception as e:
             
             print(f'An error occurred while creating dmi_api_{parameterIds[i]}.html plot: {e}')
+
+
+def last_time(dat): 
+    '''
+        last_time_api = extract.last_time(dat)
+        
+        Find the last time stamp extracted from the api
+    '''
+    
+    last_time_api = []
+    
+    for i in range(len(dat)): # Loop over measurement parameters
+        
+        # Find the last time stamp extracted
+        if not dat[i].empty: 
+            
+            last_time_api.append(dat[i]['time_to'].max())
+    
+    times = pd.to_datetime(last_time_api)
+    last_time_api = times.max().isoformat()
+
+    
+    return last_time_api
 
