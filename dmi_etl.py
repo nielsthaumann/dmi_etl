@@ -38,7 +38,8 @@
 # Import modules
 from condb import condb
 from extract import extract
-from transform import transform
+from load import load
+# from transform import transform
 
 
 # Connect to the PostgreSQL database
@@ -63,6 +64,7 @@ stations = extract.loc_range(bbox, stations)
 
 # Extract data from DMI APIs
 baseurl      = 'https://opendataapi.dmi.dk/v2/climateData/collections/stationValue/items'
+
 parameterIds = ['mean_temp', 
                 'mean_relative_hum', 
                 'mean_wind_speed', 
@@ -71,16 +73,44 @@ parameterIds = ['mean_temp',
                 'mean_cloud_cover', 
                 'acc_precip', 
                 'snow_depth']
-datetime     = '2018-01-01T00:00:00Z/2018-02-15T23:00:00Z' # Begin/end yyyy-mm-ddThh:mm:ss
+
+unit_mapping =    {
+                  'mean_temp':         '°C',    # Mean temperature °C
+                  'mean_relative_hum': '%',     # Mean relative humidity %
+                  'mean_wind_speed':   'm/s',   # Mean wind speed m/s
+                  'bright_sunshine':   'Minutes/hours' , # Minutes/hours of bright sunshine
+                  'mean_radiation':    'W/m²',           # Mean radiation (spectral range: 305-2800nm) W/m²
+                  'mean_cloud_cover':  '%',     # Cloud cover %
+                  'acc_precip':        'mm',    # Accumulated precipitation mm
+                  'snow_depth':        'cm',    # Snow depth cm
+                  }
+
+# Define the start time stamp, start_time. 
+# Extract and load loop will run from the start time stamp 
+# until the latest available time stamp has been extracted and loaded. 
+start_time = '2018-01-01T00:00:00Z'
+
 while True: # Extract and load loop
-    extract.dbinfo(engine)
-    dat = extract.dmi_api_get(baseurl, parameterIds, stations, datetime)
-    # --- COMPLETE CODE HERE ---
-
-
-# Check the extracted data by visualization with plotly
-extract.check_dat(dat)
-
+    
+    # Find the last time stamp extracted for each measurement parameter and location in the database
+    last_time = condb.last_time(engine)
+    
+    # Extract new data from the DMI API
+    dat = extract.dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time)
+    
+    # Check the extracted data by visualization with plotly
+    # extract.check_dat(dat, parameterIds)
+    
+    # Check whether any new time stamps were extracted
+    if not all(len(x) == 0 for x in dat): 
+    
+        # Load the new data into the PostgreSQL database
+        load.to_db(engine, parameterIds, dat)
+        
+    else: # If no new data was extracted, exit the extract and load loop
+        
+        break
+    
 
 # Close the PostgreSQL database engine
 engine.dispose()

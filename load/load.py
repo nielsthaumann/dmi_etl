@@ -1,42 +1,41 @@
 '''
-    Load data into Docker PostgreSQL database
+    Load data into database
 '''
 
 
-# Import required libraries
-import pandas as pd
-# import psycopg
-from sqlalchemy import create_engine
-
-# Load the extracted data locally
-parameterIds = ['mean_temp',          # Mean temperature °C
-                'mean_relative_hum',  # Mean relative humidity %
-                'mean_wind_speed',    # Mean wind speed m/s
-                'bright_sunshine',    # Minutes/hours of bright sunshine
-                'mean_radiation',     # Mean radiation (spectral range: 305-2800nm) W/m^2
-                'mean_cloud_cover',   # Cloud cover %
-                'acc_precip',         # Accumulated precipitation mm
-                'snow_depth',         # Snow depth cm
-                ]
-dat = [[None]]*len(parameterIds) # Prepare a list of pandas dataframes with extracted data ( dat[parameter] )
-for i, parameterId in enumerate(parameterIds): # Loop over parameters
+def to_db(engine, parameterIds, dat): 
+    '''
+        load.to_db(engine, parameterIds, dat)
+        
+        Load extracted data into database
+    '''
     
-    dat[i] = pd.read_pickle(f'dmi_api_{parameterIds[i]}.pkl')
+    # Write to the database
+    # ( https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html )
+    
+    for i in range(len(dat)): # Loop over measurement parameters
+        
+        if not dat[i].empty: 
+            
+            print(f'\nLoading {parameterIds[i]} data into database...', end='')
+            
+            dat[i].to_sql(parameterIds[i], engine, if_exists='append', index=False)
+            
+            print('completed. ✅')
+        
+        else:
+            
+            print(f'\nSkipping empty dataframe for {parameterIds[i]}. 🟡')
 
 
-# Connect to the database
-engine = create_engine("postgresql+psycopg://nth:pass@localhost:5432/dmi_etl")
 
-# Write to the database
-# ( https://pandas.pydata.org/docs/reference/api/pandas.DataFrame.to_sql.html )
-for i, parameterId in enumerate(parameterIds): # Loop over parameters
-    dat[i].to_sql(parameterIds[i], engine, if_exists="append", index=False)
-
-
-# # Read from the database
+# Check whether the loaded data can be read into a pandas dataframe
 # df = pd.read_sql(f"SELECT * FROM {parameterIds[0]}", engine)
 
 
+# ---- ALTERNATIVE CODE ---
+
+# import psycopg
 
 # # Connect to an existing database
 # conn = psycopg.connect(host="localhost",
@@ -81,7 +80,7 @@ for i, parameterId in enumerate(parameterIds): # Loop over parameters
 #     print(record)
 
 # Make the changes to the database persistent
-conn.commit()
+# conn.commit()
         
 
 # # %% Templates
