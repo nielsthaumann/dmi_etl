@@ -50,7 +50,7 @@ def last_time(engine, start_time, stations, parameterIds):
         
         for j in range(len(db_locations)): # Loop over locations
             
-            # Find the last time stamp extracted from each location
+            # Find the measurement station coordinates
             db_location = db_locations['location_longitude'][j], db_locations['location_latitude'][j]
             
             # If the last time stamp is later than the start time

@@ -39,10 +39,10 @@
 from condb import condb
 from extract import extract
 from load import load
+from transform import transform
 import pandas as pd
 from datetime import datetime
 from time import time
-# from transform import transform
 
 
 # Connect to the PostgreSQL database
