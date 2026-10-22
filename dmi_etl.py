@@ -40,9 +40,13 @@ from condb import condb
 from extract import extract
 from load import load
 from transform import transform
+from api import api
 import pandas as pd
 from datetime import datetime
 from time import time
+import threading
+import uvicorn
+from wheather_app import wheather_app
 
 
 # Connect to the PostgreSQL database
@@ -61,9 +65,9 @@ engine = condb.condb(username, password, location, dbname)
 stations = extract.stations_scraper()
 
 
-# Constrain to Aarhus Kommune ( Use: https://boundingbox.klokantech.com/ )
-bbox = [8.948564,55.995726,9.389087,56.330475]
-stations = extract.loc_range(bbox, stations)
+# # Constrain to Aarhus Kommune ( Use: https://boundingbox.klokantech.com/ )
+# bbox = [8.948564,55.995726,9.389087,56.330475]
+# Constrain to Denmark ( Use: https://boundingbox.klokantech.com/ )
 
 
 # Extract data from DMI APIs
@@ -136,7 +140,23 @@ while True: # Extract and load loop
     
     print(f'\n⏳ The current processing speed is ~{round(minperyear,1)} minutes per year of data.')
         
-    
+
+# ---> Transform the data and upload the result to the database dmi_weathernorms
+
+
+# Start the API server
+app = api.api_server(engine)
+config = uvicorn.Config(app, host="127.0.0.1", port=8000)
+server = uvicorn.Server(config)
+thread = threading.Thread(target=server.run, daemon=True)
+thread.start()
+street_address = 'Kannikegade 18'
+wheather_app(street_address, stations, engine)
+
+# Stop the API server
+server.should_exit = True   # ask uvicorn to stop gracefully
+thread.join()               # wait until it has finished
+
 # Close the PostgreSQL database engine
 engine.dispose()
 

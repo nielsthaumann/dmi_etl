@@ -6,6 +6,7 @@
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy import create_engine, inspect
 import pandas as pd
+from sqlalchemy.exc import SQLAlchemyError
 
 def condb(username, password, location, dbname): 
     '''
@@ -46,7 +47,14 @@ def last_time(engine, start_time, stations, parameterIds):
     
     for i in range(len(db_parameterIds)): # Loop over measurement parameters
         
-        db_locations = pd.read_sql(f'SELECT DISTINCT location_longitude, location_latitude FROM {db_parameterIds[i]}', engine)
+        # Find the measurement station coordinates
+        try: 
+            db_locations = pd.read_sql(f'SELECT DISTINCT location_longitude, location_latitude FROM {db_parameterIds[i]}', engine)
+        
+        except (SQLAlchemyError, pd.errors.DatabaseError):
+            
+            print(f"No locations were found for {db_parameterIds[i]}.")
+            db_locations = []
         
         for j in range(len(db_locations)): # Loop over locations
             
@@ -61,7 +69,13 @@ def last_time(engine, start_time, stations, parameterIds):
                 params_stationId[db_parameterIds[i]].append(stationId) 
                 
         # Find the last time stamp extracted
-        last_time_db[i] = pd.read_sql(f"SELECT time_to FROM {db_parameterIds[i]} ORDER BY time_to DESC LIMIT 1", engine).loc[0].tolist()[0]
+        try: 
+            last_time_db[i] = pd.read_sql(f"SELECT time_to FROM {db_parameterIds[i]} ORDER BY time_to DESC LIMIT 1", engine).loc[0].tolist()[0]
+        
+        except (SQLAlchemyError, pd.errors.DatabaseError):
+            
+            print(f"No time stamps were found for {db_parameterIds[i]}.")
+            last_time_db[i] = 'NaT'
             
     times = pd.to_datetime(last_time_db)
     last_time_db = times.max().isoformat()
