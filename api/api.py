@@ -58,15 +58,16 @@ def api_server(engine):
     # Create data models
     models = {}
     for param_id in db_parameterIds:
-        cls_name = "".join(part.capitalize() for part in param_id.split("_"))  # mean_temp -> MeanTemp
+        
+        cls_name = "".join(part.capitalize() for part in param_id.split("_"))
     
         models[param_id] = type(MeasurementBase)(
             cls_name,
             (MeasurementBase,),
             {
-                "__annotations__": {param_id: float | None},
-                param_id: None,
                 "__tablename__": param_id,
+                param_id: None,
+                "__annotations__": {param_id: float | None},
                 "__table_args__": {"extend_existing": True},
             },
             table=True,
@@ -100,20 +101,19 @@ def api_server(engine):
         
         if model is None:
             
-            raise HTTPException(404, f"Unknown parameter '{parameter}'")
+            raise HTTPException(404, f"Unknown measurement parameter '{parameter}'")
         
-        stmt = select(model)
+        stmt = select(model) # Define the statement for the request
         
-        if location_longitude is not None:
+        if location_longitude is not None: # Use longitude constraint
             
             stmt = stmt.where(model.location_longitude == location_longitude)
         
-        if location_latitude is not None:
+        if location_latitude is not None: # Use latitude constraint
             
             stmt = stmt.where(model.location_latitude == location_latitude)
     
-        return session.exec(stmt.limit(limit)).all()
-    
+        return session.exec(stmt.limit(limit)).all() # Execute session
     
     return app
 

@@ -8,6 +8,7 @@ from sqlalchemy import create_engine, inspect
 import pandas as pd
 from sqlalchemy.exc import SQLAlchemyError
 
+
 def condb(username, password, location, dbname): 
     '''
         engine = condb(username, password, location, dbname)
@@ -27,9 +28,10 @@ def condb(username, password, location, dbname):
     
     return engine
 
-def last_time(engine, start_time, stations, parameterIds): 
+
+def last_time_db(engine, start_time, stations, parameterIds): 
     '''
-        last_time_db, params_stationId = condb.last_time(engine, start_time, stations, parameterIds)
+        last_time_db, params_stationId = condb.last_time_db(engine, start_time, stations, parameterIds)
         
         Find the last time stamp extracted in the database and trusted trusted for each measurement parameter
     '''
@@ -76,7 +78,8 @@ def last_time(engine, start_time, stations, parameterIds):
             
             print(f"No time stamps were found for {db_parameterIds[i]}.")
             last_time_db[i] = 'NaT'
-            
+    
+    # Convert last time stamp to ISO 8601
     times = pd.to_datetime(last_time_db)
     last_time_db = times.max().isoformat()
     

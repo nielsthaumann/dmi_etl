@@ -32,10 +32,11 @@ def stations_scraper():
     # Parse HTML
     soup = BeautifulSoup(resp.text, "html.parser")
     
+    # Find table
     textarea = soup.find("textarea", class_="dmi-input")
-    
     text = textarea.get_text()   # or textarea.string
     
+    # Convert to dataframe
     stations = pd.read_csv(
         StringIO(text.lstrip()),   # removes the leading \n, tab and spaces before "stationId"
         sep="\t",
@@ -58,9 +59,14 @@ def loc_range(bbox, stations):
         Location contraint
     '''
     
+    # Extract latitudes and longitudes
     lat = pd.to_numeric(stations['latitude'],  errors='coerce')
     lon = pd.to_numeric(stations['longitude'], errors='coerce')
+    
+    # Create latitudes and longitudes mask
     inside = lat.between(bbox[1], bbox[3]) & lon.between(bbox[0], bbox[2])
+    
+    # Apply latitudes and longitudes mask
     stations = stations.loc[inside].reset_index(drop=True)
     
     print(f'Constrained to {len(stations['stationId'].unique())} stations wihtin bbox={bbox}.')
@@ -119,6 +125,7 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
         Extraction function for Climate Data API
     '''
     
+    # Find unique station Ids
     stationIds = stations['stationId'].unique()
     
     # Prepare a list of pandas dataframes with extracted data ( dat[parameter] )
@@ -129,7 +136,7 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
         
         print(f'\n📏 Extracting {parameterId} data...')
         
-        # Prepare a list of pandas dataframes for extracted station data ( station_dat[station] )
+        # Prepare a list for extracted station data ( station_dat[station] )
         station_dat = [None]*len(stationIds)
         
         # Loop over stations
@@ -137,13 +144,14 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
             
             print(f'\t📡 Extracting {parameterId} data from station {j+1} of {len(stationIds)}...')
             
-            # Add one month to the starting point and format it as an ISO string with a trailing Z (UTC)
+            # Add one month to the last time point in the database and format it as an ISO 8601 string with a trailing Z (UTC)
             end_time = (pd.Timestamp(last_time_db) + pd.DateOffset(months=1)).strftime('%Y-%m-%dT%H:%M:%SZ')
             
+            # Define the time range for the API request
             date_time = start_time +'/' + end_time # Begin/end yyyy-mm-ddThh:mm:ss
             
             # If this parameter has been extracted before
-            if last_time_db > start_time: 
+            if last_time_db > start_time: # (The last time stamp in the database is later than the initial start time for the API requests)
                 
                 # If the station is not trusted for this measurement parameter
                 if not stationId in params_stationId[parameterId]: 
@@ -156,7 +164,7 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
             # Define parameter, station, time range, and time resolution for query
             params = {'parameterId': parameterId, # Measurement parameter.
                       'stationId': stationId,     # Station Id.
-                      'datetime': date_time,       # Time range.
+                      'datetime': date_time,      # Time range.
                       'timeResolution': 'hour',   # Ensure hour sampling rate.
                       'limit': 1000}              # With limit=1000, one month of data would be feasible to extract.
             
@@ -191,35 +199,39 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
                         
                     else: 
                         
-                        # Prepare a dictionary for extracted data
+                        # Prepare a dictionary for the extracted time, location, and meaasurement value
                         station_dat[j]   = {'time_from':          [[] for _ in range(n)], # RFC3339 5.6
                                             'time_to':            [[] for _ in range(n)], # RFC3339 5.6
                                             'location_longitude': [[] for _ in range(n)], # Longitude in WGS84
                                             'location_latitude':  [[] for _ in range(n)], # Latitude in WGS84
-                                            parameterId:          [[] for _ in range(n)], # Measurement parameter
+                                            parameterId:          [[] for _ in range(n)], # Measurement value
                                             'unit':               [[] for _ in range(n)]} # Measurement unit
                         
                         for t in range(n): # Loop over time stamps
                             
-                            # Extract time, location, and meaasurement value: 
-                            
-                            # Extract time
+                            # Extract time from
                             try:
+                                
                                 station_dat[j]['time_from'][t] = json['features'][t]['properties']['from'] # RFC3339 5.6
-                            except TypeError as e:
-                                if "'NoneType' object is not subscriptable" in str(e):
-                                    continue  # Skip missing data
-                                else:
-                                    raise  # Re-raise unrelated TypeErrors
-                            try: 
-                                station_dat[j]['time_to'][t] = json['features'][t]['properties']['to'] # RFC3339 5.6
+                            
                             except TypeError as e:
                                 if "'NoneType' object is not subscriptable" in str(e):
                                     continue  # Skip missing data
                                 else:
                                     raise  # Re-raise unrelated TypeErrors
                             
-                            # Extract location
+                            # Extract time to
+                            try: 
+                                
+                                station_dat[j]['time_to'][t] = json['features'][t]['properties']['to'] # RFC3339 5.6
+                            
+                            except TypeError as e:
+                                if "'NoneType' object is not subscriptable" in str(e):
+                                    continue  # Skip missing data
+                                else:
+                                    raise  # Re-raise unrelated TypeErrors
+                            
+                            # Extract location longitude
                             try: 
                                 station_dat[j]['location_longitude'][t] = json['features'][t]['geometry']['coordinates'][0] # Longitude in WGS84
                             except TypeError as e:
@@ -227,6 +239,8 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
                                     continue  # Skip missing data
                                 else:
                                     raise  # Re-raise unrelated TypeErrors
+                            
+                            # Extract location latitude
                             try: 
                                 station_dat[j]['location_latitude'][t] = json['features'][t]['geometry']['coordinates'][1] # Latitude in WGS84
                             except TypeError as e:
@@ -251,8 +265,8 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
                 
                 print('\t\t\t✅ Completed.')
                 
-                station_df = pd.DataFrame(station_dat[j]) # Convert it to a dataframe
-                dat[i].append(station_df)                 # Append it to the list of dataframes
+                station_df = pd.DataFrame(station_dat[j]) # Convert station data to a dataframe
+                dat[i].append(station_df)                 # Append station data to the list of dataframes
                 
                 # Ensure monotonously changing time series are extracted
                 hourdiff = np.max(np.diff(pd.to_datetime(station_df['time_to'])) / pd.Timedelta(hours=1))
@@ -330,11 +344,11 @@ def check_dat(dat, parameterIds):
             print(f'An error occurred while creating dmi_api_{parameterIds[i]}.html plot: {e}')
 
 
-def last_time(dat): 
+def last_time_api(dat): 
     '''
-        last_time_api = extract.last_time(dat)
+        last_time_api = extract.last_time_api(dat)
         
-        Find the last time stamp extracted from the api
+        Find the last time stamp extracted from the API
     '''
     
     last_time_api = []

@@ -1,5 +1,5 @@
 '''
-    DMI ETL
+    DMI ETL main routine launcher
 '''
 
 
@@ -7,33 +7,7 @@
 
 # - API med vejr data fra Aarhus ( https://www.dmi.dk/frie-data ). 
 
-# Nemmere at gennemse API data med nushell i stedet for json pretty print. 
 
-# Rettelser: 
-
-# dat = [[None]]*len(parameterIds)
-# 
-# giver flere referencer til det samme liste-objekt.
-# Desuden starter hver liste med [None] og ikke en tom liste. 
-# For at lave seperate kopier af den samme tomme liste, brug list comprehension syntax: 
-# 
-# dat = [[] for _ in parameterIds]
-
-# Hvis alle elementer er None, kaster pd.concat ValueError: All objects passed were None. 
-# Løs ved at sikre at den undtagelse ikke er tilfældet.
-#
-# dat[i] = pd.concat(dat[i], ignore_index=True)
-#
-# rettes til: 
-#
-# if dat[i]:
-#     dat[i] = pd.concat(dat[i], ignore_index=True)
-# else:
-#     print(f'No data retrieved for {parameterId}.')
-#     dat[i] = pd.DataFrame()
-# 
-# Use built in pd.to_numeric instead of astype('float'), 
-# where empty cells are kept as empty strings ('')
 
 # Import modules
 from condb import condb
@@ -52,21 +26,24 @@ from wheather_app import wheather_app
 # Connect to the PostgreSQL database
 # (NB: Remember to start the server on Docker)
 # ( https://docs.sqlalchemy.org/en/21/intro.html )
-# --- ADD USER PROMPT HERE ---
-username = 'nth'
-password = 'pass'
+print('Please enter your user name and press ENTER:')
+username = input()
+print('Please enter your password and press ENTER:')
+password = input()
 location = 'localhost:5432'
 dbname   = 'dmi_etl'
-# ---- # 
-engine = condb.condb(username, password, location, dbname)
-
+try: 
+    engine = condb.condb(username, password, location, dbname)
+except Exception as e:
+    print("CAUGHT:", type(e).__name__)
+    print(str(e).splitlines()[0])
 
 # Find available stations
 stations = extract.stations_scraper()
 
 
-# # Constrain to Aarhus Kommune ( Use: https://boundingbox.klokantech.com/ )
-# bbox = [8.948564,55.995726,9.389087,56.330475]
+# # Constrain location ( Use: https://boundingbox.klokantech.com/ )
+# bbox = [8.948564,55.995726,9.389087,56.330475] # Aarhus Kommune 
 # Constrain to Denmark ( Use: https://boundingbox.klokantech.com/ )
 
 
@@ -106,7 +83,7 @@ while True: # Extract and load loop
     print('\n🔃 Checking for new data on the API not loaded to the database...')
     
     # Find the last time stamp extracted in the database
-    last_time_db, params_stationId = condb.last_time(engine, start_time, stations, parameterIds)
+    last_time_db, params_stationId = condb.last_time_db(engine, start_time, stations, parameterIds)
     
     # Extract new data from the DMI API
     dat = extract.dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId)
@@ -117,7 +94,7 @@ while True: # Extract and load loop
     # Check whether any new time stamps were extracted
     if not all(len(x) == 0 for x in dat): 
         
-        last_time_api = extract.last_time(dat)
+        last_time_api = extract.last_time_api(dat)
         
         if not last_time_api==last_time_db: 
         
@@ -144,12 +121,16 @@ while True: # Extract and load loop
 # ---> Transform the data and upload the result to the database dmi_weathernorms
 
 
-# Start the API server
+# Create an API server with FastAPI and SQLModel
 app = api.api_server(engine)
+
+# Start the API server
 config = uvicorn.Config(app, host="127.0.0.1", port=8000)
 server = uvicorn.Server(config)
 thread = threading.Thread(target=server.run, daemon=True)
 thread.start()
+
+# Mini app showcase on API
 street_address = 'Kannikegade 18'
 wheather_app(street_address, stations, engine)
 

@@ -7,7 +7,7 @@ from sqlalchemy import inspect
 
 def transform(engine): 
     '''
-        
+        Transform the data
         
         Calculate averages, minimum and maximum 
         for every hour in the days of a year, 
@@ -25,7 +25,7 @@ def transform(engine):
     
     for i in range(len(db_parameterIds)): # Loop over measurement parameters
         
-        # Calculate the average using SQL
+        # Calculate the average measurement values across years using SQL
         avg = pd.read_sql(f"SELECT location_longitude, location_latitude, SUBSTRING(time_to, 5) AS month_day_hour, AVG({db_parameterIds[i]}) AS avg_{db_parameterIds[i]} FROM {db_parameterIds[i]} GROUP BY location_longitude, location_latitude, SUBSTRING(time_to, 5) ORDER BY SUBSTRING(time_to, 5)", engine)
         avg['month_day_hour'] = pd.to_datetime(avg['month_day_hour'], utc=True, errors="coerce")
         
