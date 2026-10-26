@@ -55,7 +55,7 @@ def last_time_db(engine, start_time, stations, parameterIds):
         
         except (SQLAlchemyError, pd.errors.DatabaseError):
             
-            print(f"No locations were found for {db_parameterIds[i]}.")
+            print(f"No locations were found for the measurent parameter '{db_parameterIds[i]}'.")
             db_locations = []
         
         for j in range(len(db_locations)): # Loop over locations
@@ -76,7 +76,7 @@ def last_time_db(engine, start_time, stations, parameterIds):
         
         except (SQLAlchemyError, pd.errors.DatabaseError):
             
-            print(f"No time stamps were found for {db_parameterIds[i]}.")
+            print(f"No time stamps were found for the measurent parameter '{db_parameterIds[i]}'.")
             last_time_db[i] = 'NaT'
     
     # Convert last time stamp to ISO 8601

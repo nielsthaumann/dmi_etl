@@ -21,7 +21,7 @@ from time import time
 import threading
 import uvicorn
 from wheather_app import wheather_app
-
+from getpass import getpass
 
 # Connect to the PostgreSQL database
 # (NB: Remember to start the server on Docker)
@@ -29,7 +29,7 @@ from wheather_app import wheather_app
 print('Please enter your user name and press ENTER:')
 username = input()
 print('Please enter your password and press ENTER:')
-password = input()
+password = getpass(echo_char='*')
 location = 'localhost:5432'
 dbname   = 'dmi_etl'
 try: 
@@ -118,26 +118,26 @@ while True: # Extract and load loop
     print(f'\n⏳ The current processing speed is ~{round(minperyear,1)} minutes per year of data.')
         
 
-# ---> Transform the data and upload the result to the database dmi_weathernorms
+# # ---> Transform the data and upload the result to the database dmi_weathernorms
 
 
-# Create an API server with FastAPI and SQLModel
-app = api.api_server(engine)
+# # Create an API server with FastAPI and SQLModel
+# app = api.api_server(engine)
 
-# Start the API server
-config = uvicorn.Config(app, host="127.0.0.1", port=8000)
-server = uvicorn.Server(config)
-thread = threading.Thread(target=server.run, daemon=True)
-thread.start()
+# # Start the API server
+# config = uvicorn.Config(app, host="127.0.0.1", port=8000)
+# server = uvicorn.Server(config)
+# thread = threading.Thread(target=server.run, daemon=True)
+# thread.start()
 
-# Mini app showcase on API
-street_address = 'Kannikegade 18'
-wheather_app(street_address, stations, engine)
+# # Mini app showcase on API
+# street_address = 'Kannikegade 18'
+# wheather_app(street_address, stations, engine)
 
-# Stop the API server
-server.should_exit = True   # ask uvicorn to stop gracefully
-thread.join()               # wait until it has finished
+# # Stop the API server
+# server.should_exit = True   # ask uvicorn to stop gracefully
+# thread.join()               # wait until it has finished
 
-# Close the PostgreSQL database engine
-engine.dispose()
+# # Close the PostgreSQL database engine
+# engine.dispose()
 

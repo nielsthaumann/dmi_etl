@@ -74,49 +74,6 @@ def loc_range(bbox, stations):
     return stations 
 
 
-# Retrive data for new time points that are not already available in the database
-# datetime = '2018-02-12T00:00:00Z/2018-03-18T00:00:00Z' # Begin/end yyyy-mm-ddThh:mm:ss
-
-# Handle requests objects limit by increasing the datetime offset: 
-# > DMI Climate Data API uses <begin>/<end> syntax and wildcards ..
-#   The following syntax creates a datatime offset request: ?datetime=yyyy-mm-ddThh:mm:ss/..
-
-
-#   - Temperatur, luftfugtighed, vindhastighed, sollys, stråling, skydække, regn, sne. 
-# 	  
-#     https://www.dmi.dk/friedata/dokumentation/apis/climate-data-api-1
-#     https://www.dmi.dk/friedata/dokumentation/climate-data#c24284
-#     https://www.dmi.dk/friedata/dokumentation/climate-data#c24290
-# 
-#     ( https://www.dmi.dk/friedata/dokumentation/meteorological-observation-api )
-# 
-
-# baseurl = 'https://opendataapi.dmi.dk/v2/climateData/collections/stationValue/items'
-
-# parameterIds = ['mean_temp', 
-#                 'mean_relative_hum', 
-#                 'mean_wind_speed', 
-#                 'bright_sunshine', 
-#                 'mean_radiation', 
-#                 'mean_cloud_cover', 
-#                 'acc_precip', 
-#                 'snow_depth']
-
-# unit_mapping =    {
-#                   'mean_temp':         '°C',    # Mean temperature °C
-#                   'mean_relative_hum': '%',     # Mean relative humidity %
-#                   'mean_wind_speed':   'm/s',   # Mean wind speed m/s
-#                   'bright_sunshine':   'Minutes/hours' , # Minutes/hours of bright sunshine
-#                   'mean_radiation':    'W/m²',           # Mean radiation (spectral range: 305-2800nm) W/m²
-#                   'mean_cloud_cover':  '%',     # Cloud cover %
-#                   'acc_precip':        'mm',    # Accumulated precipitation mm
-#                   'snow_depth':        'cm',    # Snow depth cm
-#                   }
-
-# # Define the start time stamp, start_time. 
-# # Data is extracted from the start time stamp until the latest available time stamp. 
-# start_time = '2018-01-01T00:00:00Z'
-
 def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId): 
     
     '''
