@@ -14,29 +14,49 @@ import numpy as np
 from datetime import datetime
 
 
-def stations_scraper(): 
+def stations_scraper(URL): 
     '''
+    Mini web scraper for extracting information about stations from DMI's online table
+    
+    Syntax:     
+        
         stations = stations_scraper()
         
-        Mini web scraper for extracting information about stations from DMI's online table
     '''
     
     
     print('\nMini web scraper for extracting stations from DMIs online table', end='...')
     
-    URL = "https://www.dmi.dk/friedata/dokumentation/data/climate-data-stations"
-    
-    resp = requests.get(URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
-    resp.raise_for_status()
+    while True: 
+        
+        try: 
+        
+            resp = requests.get(URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=30)
+            
+            break
+            
+        except:
+            
+            print(f"\nFailed connecting to: {URL}.\n\nPlease make sure that you are connected to the internet.")
+            print("Press R to retry. Press Q to quit. Proceeed by pressing ENTER: ")
+            ui = input()
+            if ui.lower() == 'r': 
+                
+                continue
+                
+            elif ui.lower() == 'q':
+                
+                raise SystemExit("Login cancelled")
     
     # Parse HTML
     soup = BeautifulSoup(resp.text, "html.parser")
     
     # Find table
-    textarea = soup.find("textarea", class_="dmi-input")
-    text = textarea.get_text()   # or textarea.string
     
-    # Convert to dataframe
+    textarea = soup.find("textarea", class_="dmi-input")
+    text = textarea.get_text()     # or textarea.string
+    
+    # Convert CSV formatted table to dataframe
     stations = pd.read_csv(
         StringIO(text.lstrip()),   # removes the leading \n, tab and spaces before "stationId"
         sep="\t",
@@ -44,13 +64,16 @@ def stations_scraper():
         keep_default_na=False,     # optional: empty cells stay "" instead of NaN
     )
     
-    print(f" Found {len(stations['stationId'].unique())} stations.")
+    if 'stationId' in stations.columns: 
+        
+        print(f" Found {len(stations['stationId'].unique())} stations.")
+        
+    else: 
+        
+        raise SystemExit(f"Station table was not found on {URL}")
     
     return stations
 
-
-# # Constrain to Aarhus Kommune ( Use: https://boundingbox.klokantech.com/ )
-# bbox = [8.948564,55.995726,9.389087,56.330475]
 
 def loc_range(bbox, stations): 
     '''
@@ -77,9 +100,13 @@ def loc_range(bbox, stations):
 def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId): 
     
     '''
+    
+    Extraction function for Climate Data API
+    
+    Syntax: 
+        
         dat, station_params = dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId)
         
-        Extraction function for Climate Data API
     '''
     
     # Find unique station Ids
@@ -246,9 +273,12 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
 
 def check_dat(dat, parameterIds): 
     '''
+    Check the extracted data by visualization with plotly    
+    
+    Syntax: 
+        
         check_dat(dat)
         
-        Check the extracted data by visualization with plotly
     '''
     
     # See: https://plotly.com/python/builtin-colorscales/
@@ -303,9 +333,12 @@ def check_dat(dat, parameterIds):
 
 def last_time_api(dat): 
     '''
-        last_time_api = extract.last_time_api(dat)
-        
         Find the last time stamp extracted from the API
+    
+        Syntax: 
+            
+            last_time_api = extract.last_time_api(dat)
+        
     '''
     
     last_time_api = []

@@ -15,31 +15,46 @@ from extract import extract
 from load import load
 from transform import transform
 from api import api
+from wheather_app import wheather_app
+from unittests import dmi_etl_unittests
 import pandas as pd
 from datetime import datetime
 from time import time
 import threading
 import uvicorn
-from wheather_app import wheather_app
-from getpass import getpass
+from tkinter import simpledialog, messagebox
 
-# Connect to the PostgreSQL database
+
+# Connect to a database
 # (NB: Remember to start the server on Docker)
 # ( https://docs.sqlalchemy.org/en/21/intro.html )
-print('Please enter your user name and press ENTER:')
-username = input()
-print('Please enter your password and press ENTER:')
-password = getpass(echo_char='*')
 location = 'localhost:5432'
 dbname   = 'dmi_etl'
-try: 
-    engine = condb.condb(username, password, location, dbname)
-except Exception as e:
-    print("CAUGHT:", type(e).__name__)
-    print(str(e).splitlines()[0])
+while True: 
+    
+    try: 
+        
+        engine = condb.condb(location, dbname)
+        
+        break
+        
+    except Exception as e:
+        
+        if 'password authentication failed' in str(e): 
+            
+            if messagebox.askyesno(title="Wrong user name or password", 
+                                   message='The user name or password was wrong. \nDo you want to try again'): 
+            
+                continue
+        
+            else:
+                
+                raise SystemExit("Login cancelled")
+
 
 # Find available stations
-stations = extract.stations_scraper()
+URL = "https://www.dmi.dk/friedata/dokumentation/data/climate-data-stations"
+stations = extract.stations_scraper(URL)
 
 
 # # Constrain location ( Use: https://boundingbox.klokantech.com/ )
@@ -141,3 +156,9 @@ while True: # Extract and load loop
 # # Close the PostgreSQL database engine
 # engine.dispose()
 
+
+
+if __name__ == "__main__":
+    unittest.main()
+    
+    

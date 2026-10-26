@@ -5,56 +5,27 @@
 
 # Import required libraries
 import unittest
-
-
-# Connect to the PostgreSQL database
-class TestCondb(unittest.TestCase): # (Inherits from unittest.TestCase, making it a test case class)
-    
-    # The user name does not exist
-    def test_username(self): 
-        
-        self.assert
-    
-    # The password is wrong
-    
-    
-    # The database location is not found
-    
-    
-    # The database does not exist
-    
-    pass
-
+from extract import extract
 
 # Mini web scraper for extracting information about stations from DMI's online table
 class TestStationsScraper(unittest.TestCase): 
     
     # Requests errors
-    
-    
-    # HTML parser errors
-    
+    # (Disable internet connection and exit by pressing Q)
+    def TestStationsScraperConnection(self):
+        
+        with self.assertRaises(SystemExit): 
+            
+            URL = "https://www.dmi.dk/friedata/dokumentation/data/climate-data-stations"
+            _ = extract.stations_scraper(URL)
     
     # Table not found error
-    
-    
-    # Convert to dataframe errors
-    
-    pass
-
-
-# Location contraint
-class TestLocRange(unittest.TestCase): 
-    
-    # Extract latitudes and longitudes errors
-    
-    
-    # Create latitudes and longitudes mask errors
-    
-    
-    # Apply latitudes and longitudes mask errors
-    
-    pass
+    def TestStationsScraperTable(self):
+        
+        with self.assertRaises(SystemExit): 
+            
+            URL = "https://www.dmi.dk/friedata/dokumentation/climate-data"
+            _ = extract.stations_scraper(URL)
 
 
 # Find the last time stamp extracted in the database and trusted trusted for each measurement parameter

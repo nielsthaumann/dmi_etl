@@ -7,33 +7,68 @@ from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy import create_engine, inspect
 import pandas as pd
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy.exc import OperationalError
+import tkinter as tk
+from tkinter import simpledialog, messagebox
+import socket
 
 
-def condb(username, password, location, dbname): 
+def condb(location, dbname): 
     '''
-        engine = condb(username, password, location, dbname)
-        
         Connect to a database
+        
+        Syntax: 
+            
+            engine = condb(location, dbname)
+        
     '''
+    
+    # Check if the location exists
+    timeout = 3
+    host, sep, port = location.rpartition(":")
+    try: 
+        
+        socket.create_connection(address = (host, port), timeout=timeout)
+        
+    except:
+        
+        print(f"Failed connecting to {location}.")
+        
+        raise SystemExit("Login cancelled")
+    
+    # User interface for connecting to database
+    def condb_ui(): 
+        
+        username = simpledialog.askstring("User name", prompt='Please enter a valid user name:')
+        password = simpledialog.askstring("Password", prompt='Please enter a valid password:', show="*")
+        
+        return username, password
+    
+    username, password = condb_ui()
     
     url = 'postgresql+psycopg://' + username + ':' + password + '@' + location + '/'+ dbname
     
     # Check if database already exists or needs to be created
     if not database_exists(url):
         
+        print(f"The database '{dbname}' does not exist. Creating it. ")
         create_database(url)
     
     # Connect to the database
-    engine = create_engine(url)
-    
-    return engine
+    engine = create_engine(url)    
 
+    return engine    
+    
 
 def last_time_db(engine, start_time, stations, parameterIds): 
     '''
+        
+    Find the last time stamp extracted in the database and trusted trusted for each measurement parameter
+    
+    Syntax: 
+        
         last_time_db, params_stationId = condb.last_time_db(engine, start_time, stations, parameterIds)
         
-        Find the last time stamp extracted in the database and trusted trusted for each measurement parameter
     '''
     
     # Create an inspector object
