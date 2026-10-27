@@ -3,12 +3,6 @@
 '''
 
 
-# Indsamling af miljødata: 
-
-# - API med vejr data fra Aarhus ( https://www.dmi.dk/frie-data ). 
-
-
-
 # Import modules
 from condb import condb
 from extract import extract
@@ -16,13 +10,11 @@ from load import load
 from transform import transform
 from api import api
 from wheather_app import wheather_app
+import unittest
 from unittests import dmi_etl_unittests
 import pandas as pd
 from datetime import datetime
 from time import time
-import threading
-import uvicorn
-from tkinter import simpledialog, messagebox
 
 
 # Connect to a database
@@ -30,26 +22,7 @@ from tkinter import simpledialog, messagebox
 # ( https://docs.sqlalchemy.org/en/21/intro.html )
 location = 'localhost:5432'
 dbname   = 'dmi_etl'
-while True: 
-    
-    try: 
-        
-        engine = condb.condb(location, dbname)
-        
-        break
-        
-    except Exception as e:
-        
-        if 'password authentication failed' in str(e): 
-            
-            if messagebox.askyesno(title="Wrong user name or password", 
-                                   message='The user name or password was wrong. \nDo you want to try again'): 
-            
-                continue
-        
-            else:
-                
-                raise SystemExit("Login cancelled")
+engine = condb.condb_ui(location, dbname)
 
 
 # Find available stations
@@ -157,8 +130,4 @@ while True: # Extract and load loop
 # engine.dispose()
 
 
-
-if __name__ == "__main__":
-    unittest.main()
-    
     

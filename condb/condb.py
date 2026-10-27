@@ -11,6 +11,19 @@ from sqlalchemy.exc import OperationalError
 import tkinter as tk
 from tkinter import simpledialog, messagebox
 import socket
+import traceback
+
+
+class NonExistingLocation(Exception):
+    def __init__(self, location):
+        self.location = location
+        super().__init__(f"\n\nFailed connecting to location '{location}'. \nPlease ensure that the location is correct and the database server is online. ")
+
+class FailedDbConnection(Exception):
+    def __init__(self, location):
+        self.location = location
+        super().__init__(f"\n\nFailed connecting to location '{location}'. \nPlease ensure that the location is correct and the database server is online. ")
+
 
 
 def condb(location, dbname): 
@@ -23,42 +36,99 @@ def condb(location, dbname):
         
     '''
     
+    
     # Check if the location exists
     timeout = 3
     host, sep, port = location.rpartition(":")
+    
     try: 
         
         socket.create_connection(address = (host, port), timeout=timeout)
         
     except:
         
-        print(f"Failed connecting to {location}.")
+        raise NonExistingLocation(location)
         
-        raise SystemExit("Login cancelled")
     
     # User interface for connecting to database
-    def condb_ui(): 
+    # (Note there is a smaller risk: If the users' machine is infected by mallicious software, 
+    # the password temporarilly transferred unencrypted in RAM might be picked up by a hacker. 
+    # On the server side, there is also a smaller risk: The password may be stored in files on the server as unencrypted text.
+    # Also, the connection to the database is not protected with SSL on the internal network on the server side.) 
+    def condb_prompt(): 
         
         username = simpledialog.askstring("User name", prompt='Please enter a valid user name:')
-        password = simpledialog.askstring("Password", prompt='Please enter a valid password:', show="*")
+        password = simpledialog.askstring("Password", prompt='Please enter a valid password:', show="*") # Mask display with *
         
         return username, password
     
-    username, password = condb_ui()
+    username, password = condb_prompt()
     
     url = 'postgresql+psycopg://' + username + ':' + password + '@' + location + '/'+ dbname
     
-    # Check if database already exists or needs to be created
-    if not database_exists(url):
+    try: 
         
-        print(f"The database '{dbname}' does not exist. Creating it. ")
-        create_database(url)
+        # Check if database already exists or needs to be created
+        if not database_exists(url):
+            
+            print(f"Cannot access the database '{dbname}'. Attempting to create the database and reconnect. ")
+            create_database(url)
+        
+        # Connect to the database
+        engine = create_engine(url)
+        
+        # Check if the security setting are invalid
+        if not database_exists(url):
+            
+            raise FailedDbConnection(location)
     
-    # Connect to the database
-    engine = create_engine(url)    
+        return engine    
+    
+    except Exception as e:
+        
+        if 'connection failed' in str(e): 
+            
+            raise FailedDbConnection
 
-    return engine    
+
+def condb_ui(location, dbname): 
     
+    '''
+    Connect to a database with user interface
+    
+    Syntax: 
+        
+        engine = condb_ui(location, dbname)
+        
+    '''
+    
+    while True: 
+        
+        try: 
+            
+            engine = condb(location, dbname)
+            
+            return engine
+        
+        except Exception as e:
+            
+            if 'password authentication failed' in str(e): 
+                
+                if messagebox.askyesno(title="Wrong user name or password", 
+                                       message='The user name or password was wrong. \nDo you want to try again'): 
+                
+                    continue
+                
+                else: 
+                    
+                    raise SystemExit("Login cancelled")
+        
+            else:
+                
+                traceback.print_exc() # Show exception traceback
+                return
+                
+
 
 def last_time_db(engine, start_time, stations, parameterIds): 
     '''
