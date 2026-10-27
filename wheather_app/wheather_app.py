@@ -8,7 +8,7 @@ import pandas as pd
 
 def wheather_app(street_address, stations, engine): 
     '''
-        Simple wheather app using the API server
+        Simple wheather app using custom API server
         
         Syntax:    wheather_app(street_address, stations, engine)
           
