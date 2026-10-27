@@ -35,15 +35,32 @@ def wheather_app(street_address, stations, engine):
         latitude = db_locations.location_latitude[min_id]
         nearname = stations.name[(stations.longitude == str(longitude)) & (stations.latitude == str(latitude))].tolist()[0]
         
-        print(f"Showing the mean temperature data from the nearest station at {nearname}.")
-        r = requests.get(f"http://127.0.0.1:8000/measurements/mean_temp?location_longitude={longitude}&location_latitude={latitude}")
-        time_to = [row["time_to"] for row in r.json()]
-        values = [row["mean_temp"] for row in r.json()]
-        df = pd.DataFrame({
-            "time_to": pd.to_datetime(time_to),
-            "mean_temp": values,
-            })
-        pio.renderers.default = 'browser'
-        fig = px.line(df, x='time_to', y='mean_temp', title=f"Mean temperature at {nearname} wheather station near {street_address}")
-        fig.show(config={"scrollZoom": True})
+        print(f"Showing the temperature data from the nearest station at {nearname}.")
+        r = requests.get(f"http://127.0.0.1:8000/measurements/stats_mean_temp?location_longitude={longitude}&location_latitude={latitude}")
         
+        rows = [row for row in r.json() if row and "month_day_hour" in row]
+        
+        df = pd.DataFrame(rows)[["month_day_hour", "min_mean_temp", "avg_mean_temp", "max_mean_temp"]]
+        df["month_day_hour"] = pd.to_datetime(df["month_day_hour"])
+        df = df.sort_values("month_day_hour").reset_index(drop=True)
+
+        pio.renderers.default = 'browser'
+        fig = px.line(df, x='month_day_hour', 
+                      y=['min_mean_temp', 'avg_mean_temp', 'max_mean_temp'], 
+                      title=f"Temperature normals at {nearname} weather station near {street_address}", 
+                      labels={'value': 'Temperature (°C)',
+                              'variable': 'Statistic',
+                              'month_day_hour': 'Date and time'},
+                      color_discrete_map={
+                          'min_mean_temp': 'blue',
+                          'avg_mean_temp': 'green',
+                          'max_mean_temp': 'red',
+                      })
+        # Rename the legend entries
+        names = {'min_mean_temp': 'Minimum',
+                 'avg_mean_temp': 'Average',
+                 'max_mean_temp': 'Maximum'}
+        fig.for_each_trace(lambda t: t.update(name=names[t.name]))
+        fig.update_layout(legend_traceorder="reversed")
+        fig.show(config={"scrollZoom": True})
+

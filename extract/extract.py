@@ -137,7 +137,7 @@ def dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_
             # If this parameter has been extracted before
             if last_time_db > start_time: # (The last time stamp in the database is later than the initial start time for the API requests)
                 
-                # If the station is not trusted for this measurement parameter
+                # If the station is not valid for this measurement parameter
                 if not stationId in params_stationId[parameterId]: 
                     
                     print(f'\t\t\t🟡 Skipping station, since no {parameterId} data found on first request.')    

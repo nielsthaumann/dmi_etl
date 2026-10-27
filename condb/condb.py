@@ -5,10 +5,9 @@
 # Import required libraries
 from sqlalchemy_utils import database_exists, create_database
 from sqlalchemy import create_engine, inspect
+from sqlalchemy import text
 import pandas as pd
 from sqlalchemy.exc import SQLAlchemyError
-from sqlalchemy.exc import OperationalError
-import tkinter as tk
 from tkinter import simpledialog, messagebox
 import socket
 import traceback
@@ -57,8 +56,8 @@ def condb(location, dbname):
     # Also, the connection to the database is not protected with SSL on the internal network on the server side.) 
     def condb_prompt(): 
         
-        username = simpledialog.askstring("User name", prompt='Please enter a valid user name:')
-        password = simpledialog.askstring("Password", prompt='Please enter a valid password:', show="*") # Mask display with *
+        username = simpledialog.askstring(title="User name", prompt='Please enter a valid user name:')
+        password = simpledialog.askstring(title="Password", prompt='Please enter a valid password:', show="*") # Mask display with *
         
         return username, password
     
@@ -133,7 +132,7 @@ def condb_ui(location, dbname):
 def last_time_db(engine, start_time, stations, parameterIds): 
     '''
         
-    Find the last time stamp extracted in the database and trusted trusted for each measurement parameter
+    Find the last time stamp extracted in the database and valid for each measurement parameter
     
     Syntax: 
         
@@ -145,7 +144,11 @@ def last_time_db(engine, start_time, stations, parameterIds):
     inspector = inspect(engine)
     
     # Get a list of table names indicating each measurement parameter
-    db_parameterIds = inspector.get_table_names()
+    db_parameterIds = [
+        t for t in inspector.get_table_names()
+        if {'location_longitude', 'location_latitude', 'time_to'}
+           <= {c['name'] for c in inspector.get_columns(t)}
+    ]
     
     # Prepare a list of last time stamps extracted
     last_time_db = [[] for _ in db_parameterIds]
@@ -163,18 +166,20 @@ def last_time_db(engine, start_time, stations, parameterIds):
             print(f"No locations were found for the measurent parameter '{db_parameterIds[i]}'.")
             db_locations = []
         
-        for j in range(len(db_locations)): # Loop over locations
-            
-            # Find the measurement station coordinates
-            db_location = db_locations['location_longitude'][j], db_locations['location_latitude'][j]
-            
-            # If the last time stamp is later than the start time
-            if start_time < pd.read_sql(f"SELECT * FROM {db_parameterIds[i]} WHERE location_longitude={db_location[0]} AND location_latitude={db_location[1]} ORDER BY time_to DESC", engine).loc[0].tolist()[0]: 
-                
-                # Add the station as trusted for this measurement parameter
-                stationId = stations.loc[(stations.longitude == str(db_location[0])) & (stations.latitude == str(db_location[1])), 'stationId'].drop_duplicates().tolist()[0]
-                params_stationId[db_parameterIds[i]].append(stationId) 
-                
+        
+        # Query valid locations for the measurement parameter, use conversion of numers to text and rename to match station table columns
+        query = text(f"""
+            SELECT location_longitude::text AS longitude, location_latitude::text AS latitude
+            FROM {db_parameterIds[i]}
+            GROUP BY location_longitude, location_latitude
+            HAVING MAX(time_to) > :start_time
+        """)
+        valid_locations = pd.read_sql(query, engine, params={"start_time": start_time})
+        
+        ids = valid_locations.merge(stations, on=['longitude', 'latitude'])['stationId'].drop_duplicates()
+        params_stationId[db_parameterIds[i]].extend(ids.tolist())
+        
+        
         # Find the last time stamp extracted
         try: 
             last_time_db[i] = pd.read_sql(f"SELECT time_to FROM {db_parameterIds[i]} ORDER BY time_to DESC LIMIT 1", engine).loc[0].tolist()[0]

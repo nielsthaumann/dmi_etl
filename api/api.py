@@ -5,13 +5,10 @@ from sqlalchemy import inspect
 from typing import Annotated
 from fastapi import Depends, FastAPI, HTTPException
 from sqlmodel import Field, Session, SQLModel, select
-
+from sqlalchemy import text
 
 def api_server(engine): 
     
-    # X 1. Setup for each measurement parameter and location in dmi_etl
-    
-    # --> 2. Setup for each measurement parameter and location in dmi_weathernorms
     
     '''
         API server
@@ -27,7 +24,7 @@ def api_server(engine):
             
             http://127.0.0.1:8000/measurements/<parameter>
             
-            <parameter> is the measurement parameter, e.g., mean_temp
+            <parameter> is the measurement parameter, e.g., stats_mean_temp
             
             or: 
             
@@ -38,7 +35,7 @@ def api_server(engine):
             
             Example query: 
             
-            http://127.0.0.1:8000/measurements/mean_temp?location_longitude=15.0953&location_latitude=55.0557
+            http://127.0.0.1:8000/measurements/stats_mean_temp?location_longitude=15.0953&location_latitude=55.0557
                 
     '''
     
@@ -47,27 +44,44 @@ def api_server(engine):
     
         location_longitude: float              # Location longitude attribute
         location_latitude: float               # Location latitude attribute
-        time_to: str = Field(primary_key=True) # Time stamp attribute
+        month_day_hour: str = Field(primary_key=True) # Time stamp attribute
     
     # Create an inspector object
     inspector = inspect(engine)
     
-    # Get a list of table names indicating each measurement parameter
-    db_parameterIds = inspector.get_table_names()
+    # Get a list of table names indicating each measurement parameter starting with 'stats_'. 
+    with engine.connect() as conn:
+        db_parameterIds = [
+            t for t in inspector.get_table_names()
+            if t.startswith('stats_')
+            and conn.execute(text(f'SELECT EXISTS (SELECT 1 FROM "{t}")')).scalar()
+        ]
     
     # Create data models
     models = {}
     for param_id in db_parameterIds:
         
         cls_name = "".join(part.capitalize() for part in param_id.split("_"))
-    
+        
+        name = param_id[6:]  # strip the 'stats_' prefix
+        
+        # Drop any stale definition so extend_existing can't merge old columns into the new class
+        if param_id in SQLModel.metadata.tables:
+            SQLModel.metadata.remove(SQLModel.metadata.tables[param_id])
+        
         models[param_id] = type(MeasurementBase)(
             cls_name,
             (MeasurementBase,),
             {
                 "__tablename__": param_id,
-                param_id: None,
-                "__annotations__": {param_id: float | None},
+                "__annotations__": {
+                    f"min_{name}": float | None,
+                    f"avg_{name}": float | None,
+                    f"max_{name}": float | None,
+                },
+                f"min_{name}": None,
+                f"avg_{name}": None,
+                f"max_{name}": None,
                 "__table_args__": {"extend_existing": True},
             },
             table=True,
@@ -94,7 +108,7 @@ def api_server(engine):
         session: SessionDep,
         location_longitude: float | None = None,
         location_latitude: float | None = None,
-        limit: int = 100,
+        limit: int = 200000,
     ):
         
         model = models.get(parameter)

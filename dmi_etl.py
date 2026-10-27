@@ -9,9 +9,9 @@ from extract import extract
 from load import load
 from transform import transform
 from api import api
-from wheather_app import wheather_app
-import unittest
-from unittests import dmi_etl_unittests
+import uvicorn
+from wheather_app.wheather_app import wheather_app
+import threading
 import pandas as pd
 from datetime import datetime
 from time import time
@@ -82,6 +82,7 @@ while True: # Extract and load loop
     # Check whether any new time stamps were extracted
     if not all(len(x) == 0 for x in dat): 
         
+        # Find the last time stamp extracted from the API
         last_time_api = extract.last_time_api(dat)
         
         if not last_time_api==last_time_db: 
@@ -106,28 +107,31 @@ while True: # Extract and load loop
     print(f'\n⏳ The current processing speed is ~{round(minperyear,1)} minutes per year of data.')
         
 
-# # ---> Transform the data and upload the result to the database dmi_weathernorms
+# Transform the data and upload the result to stats_{parameter_Id} tables
+transform.transform(engine)
 
 
-# # Create an API server with FastAPI and SQLModel
-# app = api.api_server(engine)
+# Create an API server with FastAPI and SQLModel
+app = api.api_server(engine)
 
-# # Start the API server
-# config = uvicorn.Config(app, host="127.0.0.1", port=8000)
-# server = uvicorn.Server(config)
-# thread = threading.Thread(target=server.run, daemon=True)
-# thread.start()
+# Start the API server
+config = uvicorn.Config(app, host="127.0.0.1", port=8000)
+server = uvicorn.Server(config)
+thread = threading.Thread(target=server.run, daemon=True)
+thread.start()
 
-# # Mini app showcase on API
-# street_address = 'Kannikegade 18'
-# wheather_app(street_address, stations, engine)
+# Mini app showcase on API
+street_address = 'Kannikegade 18'
+# street_address = 'Lautruphøj 1-3 A, Ballerup'
+# street_address = 'Dannebrogsgade 2, Odense'
+wheather_app(street_address, stations, engine)
 
-# # Stop the API server
-# server.should_exit = True   # ask uvicorn to stop gracefully
-# thread.join()               # wait until it has finished
+# Stop the API server
+server.should_exit = True   # ask uvicorn to stop gracefully
+thread.join()               # wait until it has finished
 
-# # Close the PostgreSQL database engine
-# engine.dispose()
+# Close the PostgreSQL database engine
+engine.dispose()
 
 
     
