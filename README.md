@@ -12,7 +12,7 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
 
 <img width="672" height="384" alt="image" src="https://github.com/user-attachments/assets/ef1257ab-8609-4983-9366-7a080cfaaaf5" />
 
-https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338
+( https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338 )
 
 The data is loaded to a PostgreSQL database on [Docker](). 
 
