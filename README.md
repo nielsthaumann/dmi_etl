@@ -116,7 +116,7 @@ thread.join()               # wait until it has finished
 ```
 
 9. Close the PostgreSQL database engine
-10. ```python
+```python
 # Close the PostgreSQL database engine
 engine.dispose()
 ```
