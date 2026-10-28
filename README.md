@@ -8,8 +8,32 @@ https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+[bs4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
+fastapi
+
+geopy
+
+numpy
+
+pandas
+
+plotly
+
+requests
+
+sqlalchemy
+
+sqlmodel
+
+threading
+
+tkinter
+
+unittest
+
+uvicorn
+
 
 
 ## Getting Started
