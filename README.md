@@ -6,6 +6,13 @@
 
 https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
 
+The project uses a cloud data warehouse with agile analysis of weather conditions for outdoor projects at any location in Denmark, any time of the year and hour of the day.  
+To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
+
+<img width="672" height="384" alt="image" src="https://github.com/user-attachments/assets/ef1257ab-8609-4983-9366-7a080cfaaaf5" />
+
+https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338
+
 ### Dependencies
 
 To run the data warehouse, the following Python libraries needs to be installed: 
@@ -39,13 +46,6 @@ Use the DMI ETL main routine launcher:
 ```python
 python -m dmi_etl
 ```
-
-The project uses a cloud data warehouse with agile analysis of weather conditions for outdoor projects at any location in Denmark, any time of the year and hour of the day.  
-To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
-
-<img width="672" height="384" alt="image" src="https://github.com/user-attachments/assets/ef1257ab-8609-4983-9366-7a080cfaaaf5" />
-
-https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338
 
 ## Modules and functions in the data warehouse
 
