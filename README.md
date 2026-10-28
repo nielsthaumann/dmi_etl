@@ -12,19 +12,19 @@ The data warehouse needs the following Python libraries installed to run:
 
 [bs4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
-fastapi
+[fastapi](https://fastapi.tiangolo.com/)
 
-geopy
+[geopy](https://geopy.readthedocs.io/en/stable/)
 
-numpy
+[numpy](https://numpy.org/install/)
 
-pandas
+[pandas](https://pandas.pydata.org/)
 
-plotly
+[plotly](https://plotly.com/python/getting-started/)
 
-requests
+[requests](https://pypi.org/project/requests/)
 
-sqlalchemy
+[sqlalchemy](https://docs.sqlalchemy.org/en/21/intro.html#installation)
 
 sqlmodel
 
@@ -40,7 +40,6 @@ uvicorn
 
 ## Getting Started
 
-An in-depth paragraph about your project and overview of use.
 
 1. Creating and connecting a PostgreSQL database on Docker. 
 
@@ -50,6 +49,7 @@ dbname   = 'dmi_etl'
 engine = condb.condb_ui(location, dbname)
 ```
 
+2. ....
 
 ### Installing
 
