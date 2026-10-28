@@ -129,7 +129,7 @@ street_address = 'Kannikegade 18'
 # street_address = 'Dannebrogsgade 2, Odense'
 weather_app(street_address, stations, engine)
 
-
+[![Temperature normals](docs/temperature_normals.png)](https://nielsthaumann.github.io/dmi_etl/temperature_normals.html)
 
 # Stop the API server
 server.should_exit = True   # ask uvicorn to stop gracefully
