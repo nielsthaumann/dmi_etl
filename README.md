@@ -54,7 +54,7 @@ python -m dmi_etl
 
 ## Modules and functions in the data warehouse
 
-<img width="1280" height="720" alt="Modules and functions in the data warehouse" src="https://github.com/user-attachments/assets/bbe80469-d713-4881-b28f-332e6dca6e78" />
+<img width="1280" height="592" alt="Modules and functions in the data warehouse" src="https://github.com/user-attachments/assets/542666c1-e8bc-4ae2-8d39-32dde6fd6ee3" />
 
 
 
