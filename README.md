@@ -101,7 +101,7 @@ last_time_api = extract.last_time_api(dat)
 load.to_db(engine, parameterIds, dat)
 ```
 
-7. Transform the data - Calculate averages, minimum and maximum for every hour in the days of a year, for every whether station, for every measurement parameter, and load the averages to new tables in the database:
+7. Transform the data - Calculate averages, minimum and maximum for every hour in the days of a year, for every weather station, for every measurement parameter, and load the averages to new tables in the database:
 ```python
 # Transform the data and upload the result to stats_{parameter_Id} tables
 transform.transform(engine)
@@ -109,8 +109,6 @@ transform.transform(engine)
 
 8. API server with mini app: 
 ```python
-# Create an API server with FastAPI and SQLModel
-app = api.api_server(engine)
 # Create an API server with FastAPI and SQLModel
 app = api.api_server(engine)
 
