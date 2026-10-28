@@ -34,16 +34,36 @@ To run the data warehouse, the following Python libraries needs to be installed:
 
 ## Getting Started
 
-
-1. Creating and connecting a PostgreSQL database on Docker. 
+Use the DMI ETL main routine launcher: 
 
 ```python
+python -m dmi_etl
+```
+
+## Modules and functions in the data warehouse
+
+1. Connect to a database with user interface: 
+
+```python
+# Connect to the PostgreSQL database
+# (NB: Remember to start the server on Docker)
+# ( https://docs.sqlalchemy.org/en/21/intro.html )
 location = 'localhost:5432'
 dbname   = 'dmi_etl'
 engine = condb.condb_ui(location, dbname)
 ```
 
-2. ....
+2. Mini web scraper for extracting information about stations from DMI's online table: 
+
+```python
+# Find available stations
+URL = "https://www.dmi.dk/friedata/dokumentation/data/climate-data-stations"
+stations = extract.stations_scraper(URL)
+```
+
+3. Find the last time stamp extracted in the database and valid for each measurement parameter:
+```python
+
 
 ### Installing
 
