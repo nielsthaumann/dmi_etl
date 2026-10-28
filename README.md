@@ -132,7 +132,7 @@ thread.join()               # wait until it has finished
 
 <img width="1889" height="911" alt="image" src="https://github.com/user-attachments/assets/b0ea9428-413f-4f81-8c38-da486c9ab517" />
 
-[Open the interactive version](https://raw.githack.com/nielsthaumann/dmi_etl/main/weather_app/temperature_normals.html)
+[Open interactive plot](https://raw.githack.com/nielsthaumann/dmi_etl/main/weather_app/temperature_normals.html)
 
 
 9. Close the PostgreSQL database engine
