@@ -4,7 +4,7 @@
 
 <img width="542" height="400" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
 
-https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
+( https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop )
 
 The project uses a cloud data warehouse with agile analysis of weather conditions for outdoor projects at any location in Denmark, any time of the year and hour of the day.  
 
