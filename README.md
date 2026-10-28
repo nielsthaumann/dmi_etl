@@ -2,7 +2,7 @@
 
 **Building and running a data warehouse with DMI climate data for planning outdoor projects.**
 
-<img width="450" height="332" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
+<img width="542" height="400" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
 
 https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
 
@@ -39,6 +39,13 @@ Use the DMI ETL main routine launcher:
 ```python
 python -m dmi_etl
 ```
+
+The project uses a cloud data warehouse with agile analysis of weather conditions for outdoor projects at any location in Denmark, any time of the year and hour of the day.  
+To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
+
+<img width="672" height="384" alt="image" src="https://github.com/user-attachments/assets/ef1257ab-8609-4983-9366-7a080cfaaaf5" />
+
+https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338
 
 ## Modules and functions in the data warehouse
 
@@ -109,6 +116,8 @@ street_address = 'Kannikegade 18'
 # street_address = 'Lautruphøj 1-3 A, Ballerup'
 # street_address = 'Dannebrogsgade 2, Odense'
 weather_app(street_address, stations, engine)
+
+
 
 # Stop the API server
 server.should_exit = True   # ask uvicorn to stop gracefully
