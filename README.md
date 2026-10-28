@@ -1,19 +1,28 @@
 # Weather House
+
 **Building and running a data warehouse with DMI climate data for planning outdoor projects.**
 
 <img width="450" height="332" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
 
 
-## Description
-
-An in-depth paragraph about your project and overview of use.
-
-## Getting Started
-
 ### Dependencies
 
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
 * ex. Windows 10
+
+
+## Getting Started
+
+An in-depth paragraph about your project and overview of use.
+
+1. Creating and connecting a PostgreSQL database on Docker. 
+
+```python
+location = 'localhost:5432'
+dbname   = 'dmi_etl'
+engine = condb.condb_ui(location, dbname)
+```
+
 
 ### Installing
 
