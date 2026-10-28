@@ -91,6 +91,12 @@ load.to_db(engine, parameterIds, dat)
 transform.transform(engine)
 ```
 
+8. API server - Create an API server with FastAPI and SQLModel: 
+```python
+# Create an API server with FastAPI and SQLModel
+app = api.api_server(engine)
+```
+
 ### Installing
 
 * How/where to download your program
