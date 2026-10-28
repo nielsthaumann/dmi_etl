@@ -8,6 +8,8 @@ https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
 
 ### Dependencies
 
+The data warehouse needs the following Python libraries installed to run: 
+
 [bs4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
 fastapi
