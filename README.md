@@ -6,7 +6,7 @@
 
 ( https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop )
 
-In this project a cloud data warehouse is built and ran, enableing agile analysis of weather conditions for outdoor projects at any location in Denmark, any time of the year and hour of the day.  
+This project builds and operates a cloud data warehouse, enabling agile analysis of weather conditions for outdoor projects across Denmark, at any time of the year or day.
 
 To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
 
