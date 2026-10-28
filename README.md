@@ -26,15 +26,9 @@ The data warehouse needs the following Python libraries installed to run:
 
 [sqlalchemy](https://docs.sqlalchemy.org/en/21/intro.html#installation)
 
-sqlmodel
+[sqlmodel](https://sqlmodel.tiangolo.com/#installation)
 
-threading
-
-tkinter
-
-unittest
-
-uvicorn
+[uvicorn](https://uvicorn.dev/)
 
 
 
