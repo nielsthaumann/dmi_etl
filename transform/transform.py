@@ -16,7 +16,7 @@ def transform(engine):
         
         Calculate averages, minimum and maximum 
         for every hour in the days of a year, 
-        for every whether station, 
+        for every weather station, 
         for every measurement parameter, 
         and load the averages to new tables in the database. 
         
