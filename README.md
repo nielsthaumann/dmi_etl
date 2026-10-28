@@ -63,7 +63,33 @@ stations = extract.stations_scraper(URL)
 
 3. Find the last time stamp extracted in the database and valid for each measurement parameter:
 ```python
+# Find the last time stamp extracted in the database
+last_time_db, params_stationId = condb.last_time_db(engine, start_time, stations, parameterIds)    
+```
 
+4. Extraction function for Climate Data API:
+```python
+# Extract new data from the DMI API
+dat = extract.dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId)
+```
+
+5. Find the last time stamp extracted from the API:
+```python
+# Find the last time stamp extracted from the API
+last_time_api = extract.last_time_api(dat)
+```
+
+6. Load extracted data into database:
+```python
+# Load the new data into the PostgreSQL database
+load.to_db(engine, parameterIds, dat)
+```
+
+7. Transform the data - Calculate averages, minimum and maximum for every hour in the days of a year, for every whether station, for every measurement parameter, and load the averages to new tables in the database:
+```python
+# Transform the data and upload the result to stats_{parameter_Id} tables
+transform.transform(engine)
+```
 
 ### Installing
 
