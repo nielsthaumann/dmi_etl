@@ -146,3 +146,35 @@ engine.dispose()
 * Any modifications needed to be made to files/folders
 
 
+# Unit tests
+```python
+'''
+    Unit tests for DMI ETL
+'''
+
+# Connect a the PostgreSQL database
+"""Verifying that NonExistingLocation exception is raised."""
+
+# Mini web scraper for extracting information about stations from DMI's online table
+"""Verifying that disabled internet connection is handled."""
+"""Verifying that failure to read DMI's online table is stated."""
+
+# Find the last time stamp extracted in the database and valid for each measurement parameter
+"""Ensuring a datetime class as output from condb.last_time_db."""
+"""Ensuring a dictionary with the parameterIds as keys as output from condb.last_time_db."""
+
+# Extraction function for Climate Data API
+"""Ensuring to get a list of pandas dataframes as output from extract.dmi_api_get."""
+
+# Find the last time stamp extracted from the API
+"""Ensuring a datetime class as output from extract.last_time_api."""
+
+# Load extracted data into database
+"""Ensuring that mock Loading of extracted data into database works."""
+
+# Transform the data
+"""Ensuring that transform.transform runs without error."""
+
+```
+
+<img width="515" height="390" alt="image" src="https://github.com/user-attachments/assets/730a5d90-5a18-4423-8e1b-3e60fdb43ce9" />
