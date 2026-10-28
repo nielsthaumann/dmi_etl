@@ -14,7 +14,7 @@ import pandas as pd
 from unittest import mock
 
 
-# Connect to the PostgreSQL database
+# Connect a the PostgreSQL database
 class TestDbCon(unittest.TestCase): 
     
     # Connecting to a non-existing location
@@ -128,7 +128,7 @@ class TestDmiApiGet(unittest.TestCase):
     # Verify outputs
     def test_dmi_api_get(self): 
         
-        """Ensuring to get a list pf pandas dataframes as output from extract.dmi_api_get."""
+        """Ensuring to get a list of pandas dataframes as output from extract.dmi_api_get."""
         
         self.assertIsInstance(dat, list)
         self.assertTrue(all(isinstance(df, pd.DataFrame) for df in dat))

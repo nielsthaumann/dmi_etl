@@ -6,11 +6,11 @@ import plotly.io as pio
 import requests
 import pandas as pd
 
-def wheather_app(street_address, stations, engine): 
+def weather_app(street_address, stations, engine): 
     '''
-        Simple wheather app using custom API server
+        Simple weather app using custom API server
         
-        Syntax:    wheather_app(street_address, stations, engine)
+        Syntax:    weather_app(street_address, stations, engine)
           
     '''    
     
@@ -63,4 +63,4 @@ def wheather_app(street_address, stations, engine):
         fig.for_each_trace(lambda t: t.update(name=names[t.name]))
         fig.update_layout(legend_traceorder="reversed")
         fig.show(config={"scrollZoom": True})
-
+        fig.write_html("temperature_normals.html", include_plotlyjs="cdn", config={"scrollZoom": True})

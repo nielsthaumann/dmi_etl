@@ -10,14 +10,14 @@ from load import load
 from transform import transform
 from api import api
 import uvicorn
-from wheather_app.wheather_app import wheather_app
+from weather_app.weather_app import weather_app
 import threading
 import pandas as pd
 from datetime import datetime
 from time import time
 
 
-# Connect to a database
+# Connect to the PostgreSQL database
 # (NB: Remember to start the server on Docker)
 # ( https://docs.sqlalchemy.org/en/21/intro.html )
 location = 'localhost:5432'
@@ -120,11 +120,11 @@ server = uvicorn.Server(config)
 thread = threading.Thread(target=server.run, daemon=True)
 thread.start()
 
-# Mini app showcase on API
+# Mini app on the API
 street_address = 'Kannikegade 18'
 # street_address = 'Lautruphøj 1-3 A, Ballerup'
 # street_address = 'Dannebrogsgade 2, Odense'
-wheather_app(street_address, stations, engine)
+weather_app(street_address, stations, engine)
 
 # Stop the API server
 server.should_exit = True   # ask uvicorn to stop gracefully

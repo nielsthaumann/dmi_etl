@@ -5,9 +5,12 @@
 
 def to_db(engine, parameterIds, dat): 
     '''
-        load.to_db(engine, parameterIds, dat)
-        
         Load extracted data into database
+    
+        Syntax: 
+            
+            load.to_db(engine, parameterIds, dat)
+        
     '''
     
     # Write to the database
