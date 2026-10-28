@@ -95,6 +95,30 @@ transform.transform(engine)
 ```python
 # Create an API server with FastAPI and SQLModel
 app = api.api_server(engine)
+# Create an API server with FastAPI and SQLModel
+app = api.api_server(engine)
+
+# Start the API server
+config = uvicorn.Config(app, host="127.0.0.1", port=8000)
+server = uvicorn.Server(config)
+thread = threading.Thread(target=server.run, daemon=True)
+thread.start()
+
+# Mini app showcase on API
+street_address = 'Kannikegade 18'
+# street_address = 'Lautruphøj 1-3 A, Ballerup'
+# street_address = 'Dannebrogsgade 2, Odense'
+weather_app(street_address, stations, engine)
+
+# Stop the API server
+server.should_exit = True   # ask uvicorn to stop gracefully
+thread.join()               # wait until it has finished
+```
+
+9. Close the PostgreSQL database engine
+10. ```python
+# Close the PostgreSQL database engine
+engine.dispose()
 ```
 
 ### Installing
