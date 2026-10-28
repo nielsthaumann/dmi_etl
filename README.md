@@ -49,9 +49,7 @@ https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338
 
 ## Modules and functions in the data warehouse
 
-<img width="1827" height="744" alt="image" src="https://github.com/user-attachments/assets/0ae531d4-7892-45c0-81d3-248777da6276" />
-
-
+<img width="1827" height="744" alt="image" src="https://github.com/user-attachments/assets/0f2304a0-cbde-49e2-9fd4-5fde90662009" />
 
 1. Connect to a database with user interface: 
 
