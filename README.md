@@ -49,6 +49,9 @@ https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338
 
 ## Modules and functions in the data warehouse
 
+<img width="1600" height="900" alt="image" src="https://github.com/user-attachments/assets/41ac174d-1751-4e9e-83c2-0c5e59d323d6" />
+
+
 1. Connect to a database with user interface: 
 
 ```python
@@ -98,7 +101,7 @@ load.to_db(engine, parameterIds, dat)
 transform.transform(engine)
 ```
 
-8. API server - Create an API server with FastAPI and SQLModel: 
+8. API server with mini app: 
 ```python
 # Create an API server with FastAPI and SQLModel
 app = api.api_server(engine)
@@ -111,7 +114,7 @@ server = uvicorn.Server(config)
 thread = threading.Thread(target=server.run, daemon=True)
 thread.start()
 
-# Mini app showcase on API
+# Mini app on the API
 street_address = 'Kannikegade 18'
 # street_address = 'Lautruphøj 1-3 A, Ballerup'
 # street_address = 'Dannebrogsgade 2, Odense'
