@@ -3,7 +3,7 @@
 **Building and running a data warehouse with DMI climate data for planning outdoor projects.**
 
 <img width="450" height="332" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
-
+https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
 
 ### Dependencies
 
