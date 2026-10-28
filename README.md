@@ -54,7 +54,8 @@ python -m dmi_etl
 
 ## Modules and functions in the data warehouse
 
-<img width="1876" height="802" alt="image" src="https://github.com/user-attachments/assets/c38754e9-a620-4395-923e-6fd0a471a5d3" />
+<img width="1280" height="720" alt="Modules and functions in the data warehouse" src="https://github.com/user-attachments/assets/bbe80469-d713-4881-b28f-332e6dca6e78" />
+
 
 
 1. Connect to a database with user interface: 
