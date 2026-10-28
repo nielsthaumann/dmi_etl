@@ -8,7 +8,7 @@ https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop
 
 ### Dependencies
 
-To run the data warehouse needs the following Python libraries installed: 
+To run the data warehouse, the following Python libraries needs to be installed: 
 
 [bs4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
 
