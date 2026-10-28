@@ -88,6 +88,10 @@ last_time_db, params_stationId = condb.last_time_db(engine, start_time, stations
 dat = extract.dmi_api_get(baseurl, stations, parameterIds, unit_mapping, start_time, last_time_db, params_stationId)
 ```
 
+<img width="320" height="180" alt="image" src="https://github.com/user-attachments/assets/ec659c38-c96f-4508-bc53-b7cc8d7ce609" />
+
+<img width="320" height="180" alt="image" src="https://github.com/user-attachments/assets/926b908a-ecc4-4810-a11f-441f699a82cc" />
+
 5. Find the last time stamp extracted from the API:
 ```python
 # Find the last time stamp extracted from the API
