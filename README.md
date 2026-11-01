@@ -98,7 +98,7 @@ To run the data warehouse, the following Python libraries needs to be installed:
 
 <br>
 <a href="https://uvicorn.dev">
-  <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="200" alt="uvicorn">
+  <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="300" alt="uvicorn">
 </a>
 
 <br>
@@ -168,7 +168,7 @@ transform.transform(engine)
 
 8. API server with mini app: 
 ```python
-# Create an API server with FastAPI and SQLModel
+# Create an API server with FastAPI, SQLModel, and Uvicorn
 app = api.api_server(engine)
 
 # Start the API server
