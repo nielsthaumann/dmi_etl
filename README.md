@@ -38,7 +38,7 @@ Finally, for secure data usage, the data is transformed and accessed with user r
 
 ### Dependencies
 
-To run the data warehouse, the following Python libraries and seperate applications needs to be installed: 
+To run the data warehouse, the following Python libraries and applications needs to be installed: 
 
 <br>
 
