@@ -38,7 +38,7 @@ Finally, for secure data usage, the data is transformed and accessed with user r
 
 ### Dependencies
 
-To run the data warehouse, the following Python libraries needs to be installed: 
+To run the data warehouse, the following Python libraries and seperate applications needs to be installed: 
 
 <br>
 
@@ -56,6 +56,12 @@ To run the data warehouse, the following Python libraries needs to be installed:
 <br>
 
 #### Load
+
+<br>
+<a href="https://www.docker.com/products/docker-desktop">
+  <img src="https://github.com/user-attachments/assets/bcade83d-6bf2-40dd-b280-5f218f5a69f9" height="100" alt="docker">
+</a>
+
 
 <br>
 <a href="https://pandas.pydata.org">
