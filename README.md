@@ -1,6 +1,6 @@
 # Weather House
 
-<img width="542" height="400" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
+<img width="700" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
 
 [(*Weather station in Tasiilaq on the east coast of Greenland)*]( https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop )
 
