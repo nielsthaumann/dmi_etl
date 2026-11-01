@@ -1,10 +1,24 @@
 # Weather House
 
-**Building and running a data warehouse with DMI climate data for planning outdoor projects.**
-
 <img width="542" height="400" alt="image" src="https://github.com/user-attachments/assets/85bfae6c-a76d-40e9-a3ed-289fa285d7e3" />
 
 ( https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop )
+
+**What is a cloud data warehouse?**
+
+The "cloud data warehouse" is not a literal floating cloud of data stored in a physical room but a shared server environment where selected data can be stored and processed online.
+
+According to [Dansk Industri](https://www.danskindustri.dk/vi-radgiver-dig/forretningsudvikling/digitalisering-og-innovation/grib-nye-teknologier/cloud/), Cloud is the next generation IT: 
+
+**The Benefits of Cloud Computing**
+- There are many good reasons to move from traditional IT to modern, cloud-based solutions. Cloud computing offers greater flexibility, allowing your business to respond more quickly to changing needs and requirements.
+- Cloud solutions allow employees to access documents and systems from anywhere with an internet connection, making hybrid working easier.
+- You avoid the need for major hardware investments, which are typically required with traditional IT solutions.
+- Software maintenance and updates are easier, saving the IT department valuable time.
+- Cloud solutions can easily be scaled up or down to match your needs. Many cloud services are subscription-based, which can also offer financial benefits.
+- Data recovery is easier and less costly in the event of data loss or system failure.
+
+**Building and running a cloud data warehouse with DMI climate data for planning outdoor projects.**
 
 This project builds and operates a cloud data warehouse, enabling agile analysis of weather conditions for outdoor projects across Denmark, at any time of the year or day.
 
@@ -16,7 +30,7 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
 
 The data is loaded to a PostgreSQL database on [Docker](https://hub.docker.com/_/postgres). 
 
-
+Finally, for secure data usage, the data is transformed and accessed with user restrictions via an application programming interface (API). 
 
 ### Dependencies
 
