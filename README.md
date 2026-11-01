@@ -71,20 +71,27 @@ To run the data warehouse, the following Python libraries needs to be installed:
 
 <img width="960" height="1231" alt="image" src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" />
 
-
 <br>
-<a href="https://plotly.com/python/getting-started">
-  <img src="https://github.com/user-attachments/assets/7f1915ca-da37-4a61-83dd-99528a592381" height="100" alt="plotly">
+<a href="https://pypi.org/project/requests">
+  <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="100" alt="requests">
 </a>
 
+<br>
+<a href="https://docs.sqlalchemy.org/en/21/intro.html#installation">
+  <img src="https://github.com/user-attachments/assets/a40e55d5-f720-46c7-86c4-03937aad5513" height="100" alt="sqlalchemy">
+</a>
 
-[requests](https://pypi.org/project/requests/)
+https://github.com/user-attachments/assets/b7efce32-195c-4cdc-bfe9-636676115984
 
-[sqlalchemy](https://docs.sqlalchemy.org/en/21/intro.html#installation)
+<br>
+<a href="https://sqlmodel.tiangolo.com/#installation">
+  <img src="https://github.com/user-attachments/assets/b7efce32-195c-4cdc-bfe9-636676115984" height="100" alt="sqlmodel">
+</a>
 
-[sqlmodel](https://sqlmodel.tiangolo.com/#installation)
-
-[uvicorn](https://uvicorn.dev/)
+<br>
+<a href="https://uvicorn.dev">
+  <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="100" alt="uvicorn">
+</a>
 
 
 ## Getting Started
