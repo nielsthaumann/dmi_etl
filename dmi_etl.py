@@ -111,7 +111,7 @@ while True: # Extract and load loop
 transform.transform(engine)
 
 
-# Create an API server with FastAPI and SQLModel
+# Create an API server with FastAPI, SQLModel, and Uvicorn
 app = api.api_server(engine)
 
 # Start the API server
