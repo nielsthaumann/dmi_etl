@@ -79,8 +79,6 @@ To run the data warehouse, the following Python libraries needs to be installed:
   <img src="https://github.com/user-attachments/assets/a40e55d5-f720-46c7-86c4-03937aad5513" height="100" alt="sqlalchemy">
 </a>
 
-https://github.com/user-attachments/assets/b7efce32-195c-4cdc-bfe9-636676115984
-
 <br>
 <a href="https://sqlmodel.tiangolo.com/#installation">
   <img src="https://github.com/user-attachments/assets/b7efce32-195c-4cdc-bfe9-636676115984" height="100" alt="sqlmodel">
