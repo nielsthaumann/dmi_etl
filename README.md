@@ -69,8 +69,6 @@ To run the data warehouse, the following Python libraries needs to be installed:
   <img src="https://github.com/user-attachments/assets/7f1915ca-da37-4a61-83dd-99528a592381" height="100" alt="plotly">
 </a>
 
-<img width="960" height="1231" alt="image" src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" />
-
 <br>
 <a href="https://pypi.org/project/requests">
   <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="100" alt="requests">
