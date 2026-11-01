@@ -189,7 +189,7 @@ thread.join()               # wait until it has finished
 ```
 
 [![Temperature normals](https://github.com/user-attachments/assets/b0ea9428-413f-4f81-8c38-da486c9ab517)](https://raw.githack.com/nielsthaumann/dmi_etl/main/weather_app/temperature_normals.html)
-*(Click on the interactive plot above for adaptive visualizations*)
+*(Click on the plot above to interact with the data and explore different visualizations*)
 
 ### Installing
 
