@@ -34,7 +34,7 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
 
 The data is loaded to a [PostgreSQL](https://hub.docker.com/_/postgres) database on [Docker](https://hub.docker.com/_/postgres). 
 
-Finally, for secure data usage, the data is transformed and accessed with user restrictions via an application programming interface (API) server. 
+Finally, for secure data usage, the data is accessed with user restrictions via an application programming interface (API) server. 
 
 ### Dependencies
 
