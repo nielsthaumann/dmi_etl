@@ -38,9 +38,10 @@ Finally, for secure data usage, the data is transformed and accessed with user r
 
 ### Dependencies
 
-To run the data warehouse, the following Python libraries needs to be installed for: 
+To run the data warehouse, the following Python libraries needs to be installed: 
 
-- Extraction
+
+#### Extract
 
 <a href="https://medium.com/@pratik_shrestha/exploring-web-scraping-with-beautiful-soup-in-python-6d7408e3bfd1">
   <img src="https://github.com/user-attachments/assets/1c7b635d-ad61-4e21-b257-0750212a2d46" height="100" alt="Beautiful Soup">
@@ -51,7 +52,7 @@ To run the data warehouse, the following Python libraries needs to be installed 
   <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="100" alt="requests">
 </a>
 
-- Loading
+#### Load
 
 <br>
 <a href="https://pandas.pydata.org">
@@ -63,7 +64,7 @@ To run the data warehouse, the following Python libraries needs to be installed 
   <img src="https://github.com/user-attachments/assets/a40e55d5-f720-46c7-86c4-03937aad5513" height="100" alt="sqlalchemy">
 </a>
 
-- Transforming
+#### Transform
 
 <br>
 <a href="https://numpy.org/install">
