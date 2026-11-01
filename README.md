@@ -18,8 +18,6 @@ Dansk Industri denounces cloud based solutions as the next genereation IT and li
 - Cloud solutions can easily be scaled up or down to match your needs. Many cloud services are subscription-based, which can also offer financial benefits.
 - Data recovery is easier and less costly in the event of data loss or system failure.
 
-(https://www.danskindustri.dk/vi-radgiver-dig/forretningsudvikling/digitalisering-og-innovation/grib-nye-teknologier/cloud/)
-
 ## Building and running a cloud data warehouse with DMI climate data for planning outdoor projects
 
 This project builds and operates a cloud data warehouse, enabling agile analysis of weather conditions for outdoor projects across Denmark, at any time of the year or day.
