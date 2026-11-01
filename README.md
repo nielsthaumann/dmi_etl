@@ -20,7 +20,7 @@ The "cloud data warehouse" is not a literal floating cloud of data stored in a p
 
 ## Building and running a cloud data warehouse with DMI climate data for planning outdoor projects
 
-This project builds and operates a cloud data warehouse, enabling agile analysis of weather conditions for outdoor projects across Denmark, at any time of the year or day.
+The current project builds and operates a cloud data warehouse, enabling agile analysis of weather conditions for outdoor projects across Denmark, at any time of the year or day.
 
 To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
 
