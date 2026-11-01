@@ -8,9 +8,9 @@
 
 The "cloud data warehouse" is not a literal floating cloud of data stored in a physical location but a shared server (computer) environment where selected data can be stored and processed online.
 
-Dansk Industri denounces cloud solutions as the next genereation IT and lists a set of advantages of the cloud computing over traditional IT: 
+[Dansk Industri](https://www.danskindustri.dk/vi-radgiver-dig/forretningsudvikling/digitalisering-og-innovation/grib-nye-teknologier/cloud/) denounces cloud solutions as the next genereation IT and lists a set of advantages of the cloud computing over traditional IT: 
 
-[**The Benefits of Cloud Computing**](https://www.danskindustri.dk/vi-radgiver-dig/forretningsudvikling/digitalisering-og-innovation/grib-nye-teknologier/cloud/)
+**The Benefits of Cloud Computing**
 - *Cloud computing offers **greater flexibility**, allowing your business to respond more quickly to changing needs and requirements.*
 - *Cloud solutions allow employees to access documents and systems from anywhere with an internet connection, **making hybrid working easier**.*
 - *You **avoid the need for major hardware investments**, which are typically required with traditional IT solutions.*
