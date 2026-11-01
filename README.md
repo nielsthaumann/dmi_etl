@@ -32,7 +32,7 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
 
 [*(Difference between ETL and ELT)*](https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338)
 
-The data is loaded to a PostgreSQL database on [Docker](https://hub.docker.com/_/postgres). 
+The data is loaded to a [PostgreSQL](https://hub.docker.com/_/postgres) database on [Docker](https://hub.docker.com/_/postgres). 
 
 Finally, for secure data usage, the data is transformed and accessed with user restrictions via an application programming interface (API) server. 
 
