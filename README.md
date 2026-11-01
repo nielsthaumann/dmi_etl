@@ -36,11 +36,11 @@ Finally, for secure data usage, the data is transformed and accessed with user r
 
 To run the data warehouse, the following Python libraries needs to be installed: 
 
-[![Beautiful soup](https://github.com/user-attachments/assets/1c7b635d-ad61-4e21-b257-0750212a2d46)](https://medium.com/@pratik_shrestha/exploring-web-scraping-with-beautiful-soup-in-python-6d7408e3bfd1)
+<a href="https://medium.com/@pratik_shrestha/exploring-web-scraping-with-beautiful-soup-in-python-6d7408e3bfd1">
+  <img src="https://github.com/user-attachments/assets/1c7b635d-ad61-4e21-b257-0750212a2d46" height="100" alt="Beautiful Soup">
+</a>
 
-[bs4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
-
-[fastapi](https://fastapi.tiangolo.com/)
+[![Fast API](https://github.com/user-attachments/assets/cd2ded03-4db1-4cc5-a16c-d9676c048300)](https://fastapi.tiangolo.com/)
 
 [geopy](https://geopy.readthedocs.io/en/stable/)
 
