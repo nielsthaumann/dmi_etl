@@ -30,7 +30,7 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
   src="https://miro.medium.com/v2/resize:fit:1100/1*c77MbjfOCxijKIOZ0z3KFw.gif"
 />
 
-( https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338 )
+[*(Difference between ETL and ELT)*](https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338)
 
 The data is loaded to a PostgreSQL database on [Docker](https://hub.docker.com/_/postgres). 
 
@@ -40,6 +40,7 @@ Finally, for secure data usage, the data is transformed and accessed with user r
 
 To run the data warehouse, the following Python libraries needs to be installed: 
 
+<br>
 
 #### Extract
 
@@ -52,6 +53,8 @@ To run the data warehouse, the following Python libraries needs to be installed:
   <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="100" alt="requests">
 </a>
 
+<br>
+
 #### Load
 
 <br>
@@ -63,6 +66,8 @@ To run the data warehouse, the following Python libraries needs to be installed:
 <a href="https://docs.sqlalchemy.org/en/21/intro.html#installation">
   <img src="https://github.com/user-attachments/assets/a40e55d5-f720-46c7-86c4-03937aad5513" height="100" alt="sqlalchemy">
 </a>
+
+<br>
 
 #### Transform
 
@@ -96,6 +101,7 @@ To run the data warehouse, the following Python libraries needs to be installed:
   <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="100" alt="uvicorn">
 </a>
 
+<br>
 
 ## Getting Started
 
