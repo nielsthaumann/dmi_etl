@@ -8,7 +8,7 @@
 
 The "cloud data warehouse" is not a literal floating cloud of data stored in a physical location but a shared server environment where selected data can be stored and processed online.
 
-Dansk Industri denounces cloud based solutions as the genereation IT and lists a set of advantages of the cloud over traditional computing: 
+Dansk Industri denounces cloud based solutions as the next genereation IT and lists a set of advantages of the cloud over traditional computing: 
 
 [**The Benefits of Cloud Computing**](https://www.danskindustri.dk/vi-radgiver-dig/forretningsudvikling/digitalisering-og-innovation/grib-nye-teknologier/cloud/)
 - There are many good reasons to move from traditional IT to modern, cloud-based solutions. Cloud computing offers greater flexibility, allowing your business to respond more quickly to changing needs and requirements.
