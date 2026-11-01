@@ -144,11 +144,6 @@ thread.join()               # wait until it has finished
 
 [![Temperature normals](https://github.com/user-attachments/assets/b0ea9428-413f-4f81-8c38-da486c9ab517)](https://raw.githack.com/nielsthaumann/dmi_etl/main/weather_app/temperature_normals.html)
 
-9. Close the PostgreSQL database engine
-```python
-# Close the PostgreSQL database engine
-engine.dispose()
-```
 
 ### Installing
 
