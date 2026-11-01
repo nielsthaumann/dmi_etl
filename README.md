@@ -98,7 +98,7 @@ To run the data warehouse, the following Python libraries needs to be installed:
 
 <br>
 <a href="https://uvicorn.dev">
-  <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="100" alt="uvicorn">
+  <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="200" alt="uvicorn">
 </a>
 
 <br>
