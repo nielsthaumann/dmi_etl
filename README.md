@@ -4,7 +4,7 @@
 
 ( https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop )
 
-**What is a cloud data warehouse?**
+## What is a cloud data warehouse?
 
 The "cloud data warehouse" is not a literal floating cloud of data stored in a physical room but a shared server environment where selected data can be stored and processed online.
 
@@ -18,7 +18,7 @@ According to [Dansk Industri](https://www.danskindustri.dk/vi-radgiver-dig/forre
 - Cloud solutions can easily be scaled up or down to match your needs. Many cloud services are subscription-based, which can also offer financial benefits.
 - Data recovery is easier and less costly in the event of data loss or system failure.
 
-**Building and running a cloud data warehouse with DMI climate data for planning outdoor projects.**
+## Building and running a cloud data warehouse with DMI climate data for planning outdoor projects
 
 This project builds and operates a cloud data warehouse, enabling agile analysis of weather conditions for outdoor projects across Denmark, at any time of the year or day.
 
@@ -55,7 +55,6 @@ To run the data warehouse, the following Python libraries needs to be installed:
 [sqlmodel](https://sqlmodel.tiangolo.com/#installation)
 
 [uvicorn](https://uvicorn.dev/)
-
 
 
 ## Getting Started
