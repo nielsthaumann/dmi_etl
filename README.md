@@ -59,7 +59,7 @@ To run the data warehouse, the following Python libraries and seperate applicati
 
 <br>
 <a href="https://www.docker.com/products/docker-desktop">
-  <img src="https://github.com/user-attachments/assets/bcade83d-6bf2-40dd-b280-5f218f5a69f9" height="100" alt="docker">
+  <img src="https://github.com/user-attachments/assets/bcade83d-6bf2-40dd-b280-5f218f5a69f9" height="200" alt="docker">
 </a>
 
 
