@@ -34,14 +34,40 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
 
 The data is loaded to a PostgreSQL database on [Docker](https://hub.docker.com/_/postgres). 
 
-Finally, for secure data usage, the data is transformed and accessed with user restrictions via an application programming interface (API). 
+Finally, for secure data usage, the data is transformed and accessed with user restrictions via an application programming interface (API) server. 
 
 ### Dependencies
 
-To run the data warehouse, the following Python libraries needs to be installed: 
+To run the data warehouse, the following Python libraries needs to be installed for: 
+
+- Extraction
 
 <a href="https://medium.com/@pratik_shrestha/exploring-web-scraping-with-beautiful-soup-in-python-6d7408e3bfd1">
   <img src="https://github.com/user-attachments/assets/1c7b635d-ad61-4e21-b257-0750212a2d46" height="100" alt="Beautiful Soup">
+</a>
+
+<br>
+<a href="https://pypi.org/project/requests">
+  <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="100" alt="requests">
+</a>
+
+- Loading
+
+<br>
+<a href="https://pandas.pydata.org">
+  <img src="https://github.com/user-attachments/assets/7f50f67f-bd6e-4609-9cf7-a3ca90b3adfa" height="100" alt="pandas">
+</a>
+
+<br>
+<a href="https://docs.sqlalchemy.org/en/21/intro.html#installation">
+  <img src="https://github.com/user-attachments/assets/a40e55d5-f720-46c7-86c4-03937aad5513" height="100" alt="sqlalchemy">
+</a>
+
+- Transforming
+
+<br>
+<a href="https://numpy.org/install">
+  <img src="https://github.com/user-attachments/assets/79c2a786-7b3f-41ec-a4d5-38f85db11ae5" height="100" alt="numpy">
 </a>
 
 <br>
@@ -55,28 +81,8 @@ To run the data warehouse, the following Python libraries needs to be installed:
 </a>
 
 <br>
-<a href="https://numpy.org/install">
-  <img src="https://github.com/user-attachments/assets/79c2a786-7b3f-41ec-a4d5-38f85db11ae5" height="100" alt="numpy">
-</a>
-
-<br>
-<a href="https://pandas.pydata.org">
-  <img src="https://github.com/user-attachments/assets/7f50f67f-bd6e-4609-9cf7-a3ca90b3adfa" height="100" alt="pandas">
-</a>
-
-<br>
 <a href="https://plotly.com/python/getting-started">
   <img src="https://github.com/user-attachments/assets/7f1915ca-da37-4a61-83dd-99528a592381" height="100" alt="plotly">
-</a>
-
-<br>
-<a href="https://pypi.org/project/requests">
-  <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="100" alt="requests">
-</a>
-
-<br>
-<a href="https://docs.sqlalchemy.org/en/21/intro.html#installation">
-  <img src="https://github.com/user-attachments/assets/a40e55d5-f720-46c7-86c4-03937aad5513" height="100" alt="sqlalchemy">
 </a>
 
 <br>
