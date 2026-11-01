@@ -6,7 +6,7 @@
 
 ## What is a cloud data warehouse?
 
-The "cloud data warehouse" is not a literal floating cloud of information stored in a castle in the sky but a shared server (computer) environment where selected data can be stored and processed online.
+The "cloud data warehouse" is not a literal floating cloud of information stored in a house in the sky but a shared server (computer) environment where selected data can be stored and processed online.
 
 [Dansk Industri](https://www.danskindustri.dk/vi-radgiver-dig/forretningsudvikling/digitalisering-og-innovation/grib-nye-teknologier/cloud/) denounces cloud solutions as the next genereation IT and lists a set of advantages of the cloud computing over traditional IT: 
 
