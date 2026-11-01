@@ -25,7 +25,7 @@ The current project builds and operates a cloud data warehouse, enabling agile a
 To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
 
 <img
-  width="900"
+  width="700"
   alt="Animated demo"
   src="https://miro.medium.com/v2/resize:fit:1100/1*c77MbjfOCxijKIOZ0z3KFw.gif"
 />
