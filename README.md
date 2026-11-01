@@ -24,7 +24,11 @@ The current project builds and operates a cloud data warehouse, enabling agile a
 
 To achieve this goal, the classical extract, transform, load (ETL) scheme is changed to an extract, load, transform (ELT) scheme. 
 
-<img width="672" height="384" alt="image" src="https://github.com/user-attachments/assets/ef1257ab-8609-4983-9366-7a080cfaaaf5" />
+<img
+  width="672"
+  alt="Animated demo"
+  src="https://miro.medium.com/v2/resize:fit:1100/1*c77MbjfOCxijKIOZ0z3KFw.gif"
+/>
 
 ( https://blog.devgenius.io/data-transformation-in-etl-process-d8efc8cf5338 )
 
@@ -40,15 +44,39 @@ To run the data warehouse, the following Python libraries needs to be installed:
   <img src="https://github.com/user-attachments/assets/1c7b635d-ad61-4e21-b257-0750212a2d46" height="100" alt="Beautiful Soup">
 </a>
 
-[![Fast API](https://github.com/user-attachments/assets/cd2ded03-4db1-4cc5-a16c-d9676c048300)](https://fastapi.tiangolo.com/)
+<br>
+<a href="https://fastapi.tiangolo.com">
+  <img src="https://github.com/user-attachments/assets/a5717c33-087d-42db-8734-1642a9a4bc76" height="100" alt="Fast API">
+</a>
 
-[geopy](https://geopy.readthedocs.io/en/stable/)
+<br>
+<a href="https://geopy.readthedocs.io/en/stable">
+  <img src="https://github.com/user-attachments/assets/8c160a7c-e1e4-441c-b0a0-205adc980e6a" height="100" alt="geopy">
+</a>
 
-[numpy](https://numpy.org/install/)
+<br>
+<a href="https://numpy.org/install">
+  <img src="https://github.com/user-attachments/assets/79c2a786-7b3f-41ec-a4d5-38f85db11ae5" height="100" alt="numpy">
+</a>
 
-[pandas](https://pandas.pydata.org/)
+<br>
+<a href="https://pandas.pydata.org">
+  <img src="https://github.com/user-attachments/assets/7f50f67f-bd6e-4609-9cf7-a3ca90b3adfa" height="100" alt="pandas">
+</a>
 
-[plotly](https://plotly.com/python/getting-started/)
+<br>
+<a href="https://plotly.com/python/getting-started">
+  <img src="https://github.com/user-attachments/assets/7f1915ca-da37-4a61-83dd-99528a592381" height="100" alt="plotly">
+</a>
+
+<img width="960" height="1231" alt="image" src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" />
+
+
+<br>
+<a href="https://plotly.com/python/getting-started">
+  <img src="https://github.com/user-attachments/assets/7f1915ca-da37-4a61-83dd-99528a592381" height="100" alt="plotly">
+</a>
+
 
 [requests](https://pypi.org/project/requests/)
 
