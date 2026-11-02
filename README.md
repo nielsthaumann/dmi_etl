@@ -48,9 +48,12 @@ To run the data warehouse, the following Python libraries and applications needs
   <img src="https://github.com/user-attachments/assets/1c7b635d-ad61-4e21-b257-0750212a2d46" height="100" alt="Beautiful Soup">
 </a>
 
+https://github.com/user-attachments/assets/a4bb2fd6-5011-4020-a5f6-d6a695d0340f
+
+
 <br>
 <a href="https://pypi.org/project/requests">
-  <img src="https://github.com/user-attachments/assets/d946527b-6874-4f3e-b186-ea37683f51ae" height="200" alt="requests">
+  <img src="https://github.com/user-attachments/assets/a4bb2fd6-5011-4020-a5f6-d6a695d0340f" height="200" alt="requests">
 </a>
 
 <br>
