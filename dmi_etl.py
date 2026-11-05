@@ -121,6 +121,8 @@ thread = threading.Thread(target=server.run, daemon=True)
 thread.start()
 
 # Mini app on the API
+# Enter a street address in Denmark for your outdoor project.
+# The app will display climate normals based on data from the nearest weather station.
 street_address = 'Kannikegade 18'
 # street_address = 'Lautruphøj 1-3 A, Ballerup'
 # street_address = 'Dannebrogsgade 2, Odense'
