@@ -129,8 +129,8 @@ street_address = 'Kannikegade 18'
 weather_app(street_address, stations, engine)
 
 # Stop the API server
-server.should_exit = True   # ask uvicorn to stop gracefully
-thread.join()               # wait until it has finished
+server.should_exit = True   # Ask uvicorn to stop gracefully
+thread.join()               # Wait until it has finished
 
 # Close the PostgreSQL database engine
 engine.dispose()
