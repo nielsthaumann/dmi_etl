@@ -190,8 +190,8 @@ street_address = 'Kannikegade 18'
 weather_app(street_address, stations, engine)
 
 # Stop the API server
-server.should_exit = True   # ask uvicorn to stop gracefully
-thread.join()               # wait until it has finished
+server.should_exit = True   # Ask uvicorn to stop gracefully
+thread.join()               # Wait until it has finished
 ```
 
 [![Temperature normals](https://github.com/user-attachments/assets/b0ea9428-413f-4f81-8c38-da486c9ab517)](https://raw.githack.com/nielsthaumann/dmi_etl/main/weather_app/temperature_normals.html)
