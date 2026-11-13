@@ -201,7 +201,7 @@ thread.join()               # Wait until it has finished
 
 **Docker**
 
-If you don't already have Docker installed, you can find it here: [Docker Desktop](https://www.docker.com/products/docker-desktop)
+If you don't have Docker installed, you can find it here: [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 **PostgreSQL image for Docker**
 
