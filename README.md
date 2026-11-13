@@ -199,29 +199,29 @@ thread.join()               # Wait until it has finished
 
 ### Installing
 
-# Docker
+**Docker**
 
 If you don't already have Docker installed, you can find it here: [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
-# PostgreSQL image for Docker
+**PostgreSQL image for Docker**
 
 To run the database, the PostgreSQL image for Docker is required: [PostgreSQL image for Docker](https://hub.docker.com/_/postgres)
 
-# Run the PostgreSQL image on Docker
+**Run the PostgreSQL image on Docker**
 
 To run the PostgreSQL image on Docker, use the following shell command, where 'nth' is the username and 'pass' is the password: 
 ```
 docker run --name pg -e POSTGRES_USER=nth -e POSTGRES_PASSWORD=pass -p 5432:5432 -d postgres:16
 ```
 
-# Create the database on Docker
+**Create the database on Docker**
 
 To create the database on Docker, use the following shell command, where 'nth' is the username and 'pass' is the password: 
 ```
 docker exec -e PGPASSWORD=pass dmi_etl_database createdb -U nth dmi_etl
 ```
 
-# Database migration
+**Database migration**
 
 To avoid extracting and loading the weather data from scratch, a backed-up earlier version of the PostgreSQL database can be downloaded here: 
 [dmi_etl_database](https://1drv.ms/u/c/dff00683a4bc7cb9/IQDISAVGmFjrRJG6N_BQhZDhAfkU99BA6k-kK9zc4jFB7wI?e=vohWV8)
@@ -231,7 +231,7 @@ For database migration, decompress with gzip or 7z (adapt the code below to matc
 "C:\Program Files\Git\usr\bin\gzip.exe" -dc dmi_etl.sql.gz | docker exec -i -e PGPASSWORD=pass dmi_etl_database psql -U nth -d dmi_etl -v ON_ERROR_STOP=1
 ```
 
-# Install the Python package
+**Install the Python package**
 
 --- WILL BE ADDED LATER ---
 
