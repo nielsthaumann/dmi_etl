@@ -231,7 +231,7 @@ For database migration, decompress with Gzip or 7z (adapt the code below to matc
 "C:\Program Files\Git\usr\bin\gzip.exe" -dc dmi_etl.sql.gz | docker exec -i -e PGPASSWORD=pass dmi_etl_database psql -U nth -d dmi_etl -v ON_ERROR_STOP=1
 ```
 
-**Install the Python package**
+**Python package**
 
 --- WILL BE ADDED LATER ---
 
