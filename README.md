@@ -216,7 +216,7 @@ docker run --name pg -e POSTGRES_USER=nth -e POSTGRES_PASSWORD=pass -p 5432:5432
 
 **Create the database on Docker**
 
-To create the database on Docker, use the following shell command, where 'nth' is the username and 'pass' is the password: 
+To create the database on Docker, use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the Docker container, 'dmi_etl' is the name of the database, and 'nth' is the username: 
 ```
 docker exec -e PGPASSWORD=pass dmi_etl_database createdb -U nth dmi_etl
 ```
@@ -226,7 +226,7 @@ docker exec -e PGPASSWORD=pass dmi_etl_database createdb -U nth dmi_etl
 To avoid extracting and loading the weather data from scratch, a backed-up earlier version of the PostgreSQL database can be downloaded here: 
 [dmi_etl_database](https://1drv.ms/u/c/dff00683a4bc7cb9/IQDISAVGmFjrRJG6N_BQhZDhAfkU99BA6k-kK9zc4jFB7wI?e=vohWV8)
 
-For database migration, decompress with gzip or 7z (adapt the code below to match your local path), and use the following shell command, where 'nth' is the username and 'pass' is the password: 
+For database migration, decompress with Gzip or 7z (adapt the code below to match your local path), and use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the Docker container, 'nth' is the username, and 'dmi_etl' is the name of the database: 
 ```
 "C:\Program Files\Git\usr\bin\gzip.exe" -dc dmi_etl.sql.gz | docker exec -i -e PGPASSWORD=pass dmi_etl_database psql -U nth -d dmi_etl -v ON_ERROR_STOP=1
 ```
