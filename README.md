@@ -226,7 +226,7 @@ docker exec -e PGPASSWORD=pass dmi_etl_database createdb -U nth dmi_etl
 To avoid extracting and loading the weather data from scratch, a backed-up earlier version of the PostgreSQL database can be downloaded here: 
 [dmi_etl_database](https://1drv.ms/u/c/dff00683a4bc7cb9/IQDISAVGmFjrRJG6N_BQhZDhAfkU99BA6k-kK9zc4jFB7wI?e=vohWV8)
 
-For database migration, decompress with Gzip or 7z (adapt the code below to match your local path), and use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the Docker container, 'nth' is the username, and 'dmi_etl' is the name of the database: 
+For database migration, decompress with Gzip or 7z (adapt the code below to match your local path), and use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the running Docker container, 'nth' is the username, and 'dmi_etl' is the name of the database: 
 ```
 "C:\Program Files\Git\usr\bin\gzip.exe" -dc dmi_etl.sql.gz | docker exec -i -e PGPASSWORD=pass dmi_etl_database psql -U nth -d dmi_etl -v ON_ERROR_STOP=1
 ```
