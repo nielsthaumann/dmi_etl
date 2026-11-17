@@ -4,6 +4,8 @@
 
 [(*Weather station in Tasiilaq on the east coast of Greenland)*]( https://www.dmi.dk/nyheder/2023/vejrstationer-i-verdenstop )
 
+<br>
+
 ## What is a cloud data warehouse?
 
 The "cloud data warehouse" is not a literal floating cloud of information stored in a house in the sky but a shared server (computer) environment where selected data can be stored and processed online.
@@ -17,6 +19,8 @@ The "cloud data warehouse" is not a literal floating cloud of information stored
 - *Software **maintenance and updates are easier**, saving the IT department valuable time.*
 - *Cloud solutions **can easily be scaled up or down** to match your needs. Many cloud services are subscription-based, which can also offer financial benefits.*
 - ***Data recovery is less costly** in the event of data loss or system failure.*
+
+<br>
 
 ## Building and running a cloud data warehouse with DMI climate data for planning outdoor projects
 
@@ -35,6 +39,52 @@ To achieve this goal, the classical extract, transform, load (ETL) scheme is cha
 The data is loaded to a [PostgreSQL](https://hub.docker.com/_/postgres) database on [Docker](https://hub.docker.com/_/postgres). 
 
 Finally, for secure data usage, the data is accessed with user restrictions via an application programming interface (API) server. 
+
+<br>
+
+### Installing
+
+**Docker**
+
+If you don't have Docker installed, you can find it here: [Docker Desktop](https://www.docker.com/products/docker-desktop)
+
+**PostgreSQL image for Docker**
+
+To run the database, the PostgreSQL image for Docker is required: [PostgreSQL image for Docker](https://hub.docker.com/_/postgres)
+
+**Run the PostgreSQL image on Docker**
+
+To run the PostgreSQL image on Docker, use the following shell command, where 'nth' is the username and 'pass' is the password: 
+```
+docker run --name pg -e POSTGRES_USER=nth -e POSTGRES_PASSWORD=pass -p 5432:5432 -d postgres:16
+```
+
+**Create the database on Docker**
+
+To create the database on Docker, use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the Docker container, 'dmi_etl' is the name of the database, and 'nth' is the username: 
+```
+docker exec -e PGPASSWORD=pass dmi_etl_database createdb -U nth dmi_etl
+```
+
+**Database migration**
+
+To avoid extracting and loading the weather data from scratch, a backed-up earlier version of the PostgreSQL database can be downloaded here: 
+[dmi_etl_database](https://1drv.ms/u/c/dff00683a4bc7cb9/IQDISAVGmFjrRJG6N_BQhZDhAfkU99BA6k-kK9zc4jFB7wI?e=vohWV8)
+
+For database migration, decompress with Gzip or 7z (adapt the code below to match your local path), and use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the running Docker container, 'nth' is the username, and 'dmi_etl' is the name of the database: 
+```
+"C:\Program Files\Git\usr\bin\gzip.exe" -dc dmi_etl.sql.gz | docker exec -i -e PGPASSWORD=pass dmi_etl_database psql -U nth -d dmi_etl -v ON_ERROR_STOP=1
+```
+
+**Python package**
+
+--- WILL BE ADDED LATER ---
+
+* How/where to download your program
+* Any modifications needed to be made to files/folders
+
+
+<br>
 
 ### Dependencies
 
@@ -107,6 +157,7 @@ To run the data warehouse, the following Python libraries and applications needs
   <img src="https://github.com/user-attachments/assets/ad0a6bd9-b52f-46d0-9bb1-724f8b608b95" height="300" alt="uvicorn">
 </a>
 
+<br>
 <br>
 
 ## Getting Started
@@ -197,47 +248,7 @@ thread.join()               # Wait until it has finished
 [![Temperature normals](https://github.com/user-attachments/assets/b0ea9428-413f-4f81-8c38-da486c9ab517)](https://raw.githack.com/nielsthaumann/dmi_etl/main/weather_app/temperature_normals.html)
 *(Click on the plot above to interact with the data and explore different visualizations*)
 
-### Installing
-
-**Docker**
-
-If you don't have Docker installed, you can find it here: [Docker Desktop](https://www.docker.com/products/docker-desktop)
-
-**PostgreSQL image for Docker**
-
-To run the database, the PostgreSQL image for Docker is required: [PostgreSQL image for Docker](https://hub.docker.com/_/postgres)
-
-**Run the PostgreSQL image on Docker**
-
-To run the PostgreSQL image on Docker, use the following shell command, where 'nth' is the username and 'pass' is the password: 
-```
-docker run --name pg -e POSTGRES_USER=nth -e POSTGRES_PASSWORD=pass -p 5432:5432 -d postgres:16
-```
-
-**Create the database on Docker**
-
-To create the database on Docker, use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the Docker container, 'dmi_etl' is the name of the database, and 'nth' is the username: 
-```
-docker exec -e PGPASSWORD=pass dmi_etl_database createdb -U nth dmi_etl
-```
-
-**Database migration**
-
-To avoid extracting and loading the weather data from scratch, a backed-up earlier version of the PostgreSQL database can be downloaded here: 
-[dmi_etl_database](https://1drv.ms/u/c/dff00683a4bc7cb9/IQDISAVGmFjrRJG6N_BQhZDhAfkU99BA6k-kK9zc4jFB7wI?e=vohWV8)
-
-For database migration, decompress with Gzip or 7z (adapt the code below to match your local path), and use the following shell command, where 'pass' is the password, 'dmi_etl_database' is the name of the running Docker container, 'nth' is the username, and 'dmi_etl' is the name of the database: 
-```
-"C:\Program Files\Git\usr\bin\gzip.exe" -dc dmi_etl.sql.gz | docker exec -i -e PGPASSWORD=pass dmi_etl_database psql -U nth -d dmi_etl -v ON_ERROR_STOP=1
-```
-
-**Python package**
-
---- WILL BE ADDED LATER ---
-
-* How/where to download your program
-* Any modifications needed to be made to files/folders
-
+<br>
 
 # Unit tests
 ```python
